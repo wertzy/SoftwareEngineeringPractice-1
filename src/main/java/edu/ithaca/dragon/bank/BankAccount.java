@@ -29,7 +29,10 @@ public class BankAccount {
     /**
      * @post reduces the balance by amount if amount is non-negative and smaller than balance
      */
-    public void withdraw (double amount)  {
+    public void withdraw (double amount) throws InsufficientFundsException  {
+        if (amount <= 0 ){
+            throw new InsufficientFundsException("negative or zero amount of money");
+        }
         if (amount <= balance) {
             balance -= amount;
         }
@@ -40,12 +43,23 @@ public class BankAccount {
     }
 
 
-    public static boolean isEmailValid(String email){
-        if (email.indexOf('@') == -1){
+    public static boolean isEmailValid(String email) {
+        if (email.indexOf('@') == -1) {
             return false;
-        }
-        else {
-            return true;
+        } else {
+            if (email.charAt(email.indexOf('.') + 1) == '.') {
+                return false;
+            } else {
+                if (email.indexOf('@') - 1 == email.indexOf('-')) {
+                    return false;
+                } else {
+                    if (email.indexOf('@') + 1 == email.indexOf('-')) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            }
         }
     }
 }

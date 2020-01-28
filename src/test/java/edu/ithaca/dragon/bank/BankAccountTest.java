@@ -14,37 +14,43 @@ class BankAccountTest {
     }
 
     @Test
-    void withdrawTest() {
+    void withdrawTest() throws InsufficientFundsException {
+        //Standard case withdrawal test, should withdraw succesfully
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
         bankAccount.withdraw(100);
-
+        //withdrawing an amount that will have the bank account be a negative amount, should throw error
+        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300));
+        //withdrawing a negative amount, should throw error
+        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(-200));
         assertEquals(100, bankAccount.getBalance());
 
-        BankAccount bankAccount2 = new BankAccount("a@b.com", 400);
-        bankAccount2.withdraw(100);
 
-        assertNotEquals(100, bankAccount2.getBalance());
-
-        /*
+        //withdrawing with an empty bank account, this is a border case, should throw an error
         BankAccount bankAccount3 = new BankAccount("a@b.com", 0);
-        bankAccount3.withdraw(100);
+        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(100));
 
-        assertNotEquals(100, bankAccount3.getBalance());
-         */
+
+
     }
 
     @Test
     void isEmailValidTest(){
         //True Tests
+        //PT: Commented out tests were commented out when I got the code.
         assertTrue(BankAccount.isEmailValid( "a@b.com"));
+        //EC: Standard valid emails. This is not a border case.
         assertTrue(BankAccount.isEmailValid( "a-a@b.com"));
         assertTrue(BankAccount.isEmailValid( "a_a@b.com"));
+        //EC: Both the above test the use of symbols in valid positions. One tests -, and the other tests _. This is not a border case.
         //assertTrue(BankAccount.isEmailValid( "a@b.cc"));
         //assertTrue(BankAccount.isEmailValid( "a@b.org"));
         //False Tests
         assertFalse( BankAccount.isEmailValid(""));
+        //EC: Tests empty strings. This is not a border case.
         assertFalse(BankAccount.isEmailValid( "a-@b.com"));
+        //EC: Tests addresses that are invalid due to a - next to the @. This is not a border case.
         assertFalse( BankAccount.isEmailValid("a..a@b.com"));
+        //EC: Tests addresses that are invalid due to repeated symbols. This is not a border case.
         //assertFalse(BankAccount.isEmailValid( "a@b..com"));
         //assertFalse(BankAccount.isEmailValid( "a@b.c"));
     }
