@@ -30,10 +30,17 @@ public class BankAccount {
      * @post reduces the balance by amount if amount is non-negative and smaller than balance
      */
     public void withdraw (double amount) throws InsufficientFundsException  {
+        if(balance ==0 ){
+            throw new InsufficientFundsException("no money in bank account");
+        }
         if (amount <= 0 ){
             throw new InsufficientFundsException("negative or zero amount of money");
         }
-        if (amount <= balance) {
+        double roundedAmount= Math.round(amount * 100.0)/100.00;
+        if (balance-roundedAmount<0){
+            throw new InsufficientFundsException("will lead to negative bank account");
+        }
+        if (roundedAmount <= balance) {
             balance -= amount;
         }
         else{
@@ -61,5 +68,9 @@ public class BankAccount {
                 }
             }
         }
+    }
+
+    public static boolean isAmountValid(double amount){
+        return false;
     }
 }

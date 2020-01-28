@@ -27,7 +27,7 @@ class BankAccountTest {
 
         //withdrawing with an empty bank account, this is a border case, should throw an error
         BankAccount bankAccount3 = new BankAccount("a@b.com", 0);
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(100));
+        assertThrows(InsufficientFundsException.class, () -> bankAccount3.withdraw(100));
 
 
 
