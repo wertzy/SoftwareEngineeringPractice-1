@@ -65,4 +65,20 @@ class BankAccountTest {
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
     }
 
+    @Test
+    void isValidAmountTest() {
+        //true tests
+        //tests an integer
+        assertTrue(BankAccount.isAmountValid(100));
+        //tests amount in the tenth place
+        assertTrue(BankAccount.isAmountValid(10.1));
+        //tests amount in the hundredths place
+        assertTrue(BankAccount.isAmountValid(10.01));
+
+        //false tests
+        //tests a negative amount
+        assertFalse(BankAccount.isAmountValid(-100));
+        //tests an amount that has too many places. amount should not be more than two decimal places
+        assertFalse(BankAccount.isAmountValid(0.001));
+    }
 }
