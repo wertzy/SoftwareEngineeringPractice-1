@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BankAccountTest {
 
     @Test
-    void getBalanceTest() {
+    void getBalanceTest() throws InsufficientFundsException {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
 
         assertEquals(200, bankAccount.getBalance());
@@ -58,17 +58,15 @@ class BankAccountTest {
     }
 
     @Test
-    void constructorTest() {
+    void constructorTest() throws InsufficientFundsException {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
 
         assertEquals("a@b.com", bankAccount.getEmail());
         assertEquals(200, bankAccount.getBalance());
-        //check for exception thrown correctly
-        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
         //check for negative bank account
-        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", -100));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", -100));
         //check for more than 2 decimal places
-        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 0.001));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 0.001));
     }
 
     @Test

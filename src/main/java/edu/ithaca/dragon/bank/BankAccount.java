@@ -10,7 +10,10 @@ public class BankAccount {
     /**
      * @throws IllegalArgumentException if email is invalid
      */
-    public BankAccount(String email, double startingBalance){
+    public BankAccount(String email, double startingBalance) throws InsufficientFundsException {
+        if(isAmountValid(startingBalance)==false){
+            throw new IllegalArgumentException("amount is invalid");
+        }
         if (isEmailValid(email)){
             this.email = email;
             this.balance = startingBalance;
@@ -28,10 +31,11 @@ public class BankAccount {
         return email;
     }
 
+
     /**
      * @post reduces the balance by amount if amount is non-negative and smaller than balance
      */
-    public void withdraw (double amount) throws IllegalArgumentException  {
+    public void withdraw (double amount) throws IllegalArgumentException, InsufficientFundsException {
         if(isAmountValid(amount)==false){
             throw new IllegalArgumentException("amount is invalid");
         }
@@ -39,7 +43,10 @@ public class BankAccount {
             throw new IllegalArgumentException("no money in bank account");
         }
         if (amount <= 0 ){
-            throw new IllegalArgumentException("negative or zero amount of money");
+            throw new InsufficientFundsException("negative or zero amount of money");
+        }
+        if(balance-amount<0){
+            throw new IllegalArgumentException("amount will overdraw the account");
         }
 
         if (amount <= balance) {
@@ -82,5 +89,18 @@ public class BankAccount {
         else {
             return true;
         }
+    }
+
+    public static double deposit(double amount){
+        if(isAmountValid(amount)==false){
+            throw new IllegalArgumentException("amount is invalid");
+        }
+        return amount;
+    }
+    public static double transfer(double amount){
+        if(isAmountValid(amount)==false){
+            throw new IllegalArgumentException("amount is invalid");
+        }
+        return amount;
     }
 }
