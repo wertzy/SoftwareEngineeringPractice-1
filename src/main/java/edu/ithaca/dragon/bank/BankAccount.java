@@ -78,7 +78,9 @@ public class BankAccount {
             }
         }
     }
-
+    /**
+     * @post checks if amount is positive and not more than 2 decimal places
+     */
     public static boolean isAmountValid(double amount) {
         if(amount<=0) {
             return false;
@@ -90,17 +92,26 @@ public class BankAccount {
             return true;
         }
     }
-
-    public static double deposit(double amount){
+    /**
+     * @post deposits money into bank account balance
+     */
+    public void deposit(double amount){
         if(isAmountValid(amount)==false){
             throw new IllegalArgumentException("amount is invalid");
         }
-        return amount;
+        balance += amount;
     }
-    public static double transfer(double amount){
+    /**
+     * @post transfers money from one bank account to another
+     */
+    public void transfer(double amount,BankAccount otherBankAccount){
         if(isAmountValid(amount)==false){
             throw new IllegalArgumentException("amount is invalid");
         }
-        return amount;
+        if(balance-amount<0){
+            throw new IllegalArgumentException("amount will overdraft bank account balance");
+        }
+        balance -= amount;
+        otherBankAccount.balance += amount;
     }
 }
