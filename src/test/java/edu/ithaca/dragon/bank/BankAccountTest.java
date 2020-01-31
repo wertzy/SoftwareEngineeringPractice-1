@@ -19,15 +19,17 @@ class BankAccountTest {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
         bankAccount.withdraw(100);
         //withdrawing an amount that will have the bank account be a negative amount, should throw error
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300));
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(300));
         //withdrawing a negative amount, should throw error
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(-200));
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-200));
         assertEquals(100, bankAccount.getBalance());
+        //withdrawing an amount thats more than 3 decimal places
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(0.001));
 
 
         //withdrawing with an empty bank account, this is a border case, should throw an error
         BankAccount bankAccount3 = new BankAccount("a@b.com", 0);
-        assertThrows(InsufficientFundsException.class, () -> bankAccount3.withdraw(100));
+        assertThrows(IllegalArgumentException.class, () -> bankAccount3.withdraw(100));
 
 
 
@@ -63,6 +65,10 @@ class BankAccountTest {
         assertEquals(200, bankAccount.getBalance());
         //check for exception thrown correctly
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
+        //check for negative bank account
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", -100));
+        //check for more than 2 decimal places
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 0.001));
     }
 
     @Test

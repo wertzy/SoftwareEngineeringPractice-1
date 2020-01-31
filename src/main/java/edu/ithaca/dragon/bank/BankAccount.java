@@ -31,22 +31,22 @@ public class BankAccount {
     /**
      * @post reduces the balance by amount if amount is non-negative and smaller than balance
      */
-    public void withdraw (double amount) throws InsufficientFundsException  {
+    public void withdraw (double amount) throws IllegalArgumentException  {
+        if(isAmountValid(amount)==false){
+            throw new IllegalArgumentException("amount is invalid");
+        }
         if(balance ==0 ){
-            throw new InsufficientFundsException("no money in bank account");
+            throw new IllegalArgumentException("no money in bank account");
         }
         if (amount <= 0 ){
-            throw new InsufficientFundsException("negative or zero amount of money");
+            throw new IllegalArgumentException("negative or zero amount of money");
         }
-        double roundedAmount= Math.round(amount * 100.0)/100.00;
-        if (balance-roundedAmount<0){
-            throw new InsufficientFundsException("will lead to negative bank account");
-        }
-        if (roundedAmount <= balance) {
+
+        if (amount <= balance) {
             balance -= amount;
         }
         else{
-            throw new InsufficientFundsException("not enough money");
+            throw new IllegalArgumentException("not enough money");
         }
 
     }
