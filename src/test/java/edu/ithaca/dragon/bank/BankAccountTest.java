@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BankAccountTest {
 
+    private Object InsufficientFundsException;
+
     @Test
     void getBalanceTest() throws InsufficientFundsException {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
@@ -52,6 +54,11 @@ class BankAccountTest {
         assertFalse(BankAccount.isEmailValid( "a-@b.com"));
         //EC: Tests addresses that are invalid due to a - next to the @. This is not a border case.
         assertFalse( BankAccount.isEmailValid("a..a@b.com"));
+    }
+
+    @Test
+    void fakeWithdrawTest() throws InsufficientFundsException {
+        assertThrows(InsufficientFundsException, CentralBank.withdraw(-32));
     }
 
     @Test
