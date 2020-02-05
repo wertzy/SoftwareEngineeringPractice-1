@@ -15,7 +15,8 @@ public class CentralBank implements AdvancedAPI, AdminAPI {
     }
 
     public void withdraw(String acctId, double amount) throws InsufficientFundsException {
-
+        double balance = 100.50;
+        balance  -= amount;
     }
 
     public void deposit(String acctId, double amount) {
@@ -45,6 +46,11 @@ public class CentralBank implements AdvancedAPI, AdminAPI {
     //------------------ AdminAPI methods -------------------------//
 
     public double checkTotalAssets() {
+        return 0;
+    }
+
+    @Override
+    public double calcTotalAssets() {
         return 0;
     }
 
