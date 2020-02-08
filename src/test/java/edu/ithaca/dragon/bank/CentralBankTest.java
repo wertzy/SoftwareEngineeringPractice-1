@@ -23,6 +23,7 @@ public class CentralBankTest {
         assertEquals(101, centralBank.getbankAccountsLength());
 
         // EQ: create an account with an existing id (border case)
-        assertThrows(IllegalArgumentException.class, () -> centralBank.createAccount("1@mail.com", 100));
+        centralBank.createAccount("1@mail.com", 100);
+        assertEquals(101, centralBank.getbankAccountsLength());
     }
 }
