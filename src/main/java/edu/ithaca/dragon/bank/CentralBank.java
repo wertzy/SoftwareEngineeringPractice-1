@@ -1,13 +1,14 @@
 package edu.ithaca.dragon.bank;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class CentralBank implements AdvancedAPI, AdminAPI {
 
-    private BankAccount[] bankAccounts = new BankAccount[100];
-    private int bankAccountsLength = 0;
+    private ArrayList<BankAccount> bankAccounts = new ArrayList<BankAccount>(100);
+    private BankTeller bankTeller = new BankTeller();
 
-    public int getbankAccountsLength() { return bankAccountsLength; }
+    public int getbankAccountsLength() { return bankAccounts.size(); }
 
     //----------------- BasicAPI methods -------------------------//
 
@@ -39,7 +40,12 @@ public class CentralBank implements AdvancedAPI, AdminAPI {
     //----------------- AdvancedAPI methods -------------------------//
 
     public void createAccount(String acctId, double startingBalance) {
-
+        try {
+            BankAccount newBankAccount =  bankTeller.createAccount(acctId, startingBalance);
+            bankAccounts.add(newBankAccount);
+        } catch(Exception e) {
+            System.out.println(e.getLocalizedMessage());
+        }
     }
 
     public void closeAccount(String acctId) {
