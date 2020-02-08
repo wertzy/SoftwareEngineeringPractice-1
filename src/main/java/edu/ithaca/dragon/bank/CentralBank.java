@@ -4,6 +4,11 @@ import java.util.Collection;
 
 public class CentralBank implements AdvancedAPI, AdminAPI {
 
+    private BankAccount[] bankAccounts = new BankAccount[100];
+    private int bankAccountsLength = 0;
+
+    public int getbankAccountsLength() { return bankAccountsLength; }
+
     //----------------- BasicAPI methods -------------------------//
 
     public boolean confirmCredentials(String acctId, String password) {
@@ -15,8 +20,6 @@ public class CentralBank implements AdvancedAPI, AdminAPI {
     }
 
     public void withdraw(String acctId, double amount) throws InsufficientFundsException {
-        int balance=10000000;
-        balance+=amount;
 
     }
 
