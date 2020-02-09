@@ -16,4 +16,17 @@ public class BankTellerTest {
             fail(e.getMessage());
         }
     }
+
+    @Test
+    public void closeAccountTest() {
+        BankTeller bankTeller = new BankTeller();
+        try {
+            // EQ: close a bank account
+            BankAccount bankAccount = new BankAccount("a@b.com", 100);
+            bankTeller.closeAccount(bankAccount);
+            assertEquals(true, bankAccount.isClosed());
+        } catch(Exception e) {
+            fail(e.getMessage());
+        }
+    }
 }

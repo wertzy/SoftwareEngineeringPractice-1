@@ -6,6 +6,7 @@ public class BankAccount {
 
     private String email;
     private double balance;
+    private boolean closed = false;
 
     /**
      * @throws IllegalArgumentException if email is invalid
@@ -30,6 +31,10 @@ public class BankAccount {
     public String getEmail(){
         return email;
     }
+
+    public void setClosed(boolean bool) { closed = bool; }
+
+    public boolean isClosed() { return closed; }
 
 
     /**
