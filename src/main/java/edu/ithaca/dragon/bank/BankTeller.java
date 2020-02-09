@@ -6,6 +6,6 @@ public class BankTeller {
    }
 
    public void closeAccount(BankAccount bankAccount) {
-
+        bankAccount.setClosed(true);
    }
 }
