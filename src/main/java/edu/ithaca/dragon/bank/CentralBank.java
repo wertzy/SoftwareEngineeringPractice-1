@@ -6,9 +6,12 @@ import java.util.Collection;
 public class CentralBank implements AdvancedAPI, AdminAPI {
 
     private ArrayList<BankAccount> bankAccounts = new ArrayList<BankAccount>(100);
+    private ArrayList<BankAccount> closedAccounts = new ArrayList<BankAccount>(100);
     private BankTeller bankTeller = new BankTeller();
 
     public int getbankAccountsLength() { return bankAccounts.size(); }
+
+    public int getClosedAccountsLength() { return closedAccounts.size(); }
 
     //----------------- BasicAPI methods -------------------------//
 
