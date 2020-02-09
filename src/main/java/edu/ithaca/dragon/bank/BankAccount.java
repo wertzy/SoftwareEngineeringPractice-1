@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 public class BankAccount {
 
     private String email;
+    public boolean isFrozen;
     private double balance;
 
     /**
