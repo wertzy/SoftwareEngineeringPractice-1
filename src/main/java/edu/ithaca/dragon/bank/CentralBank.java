@@ -55,7 +55,18 @@ public class CentralBank implements AdvancedAPI, AdminAPI {
     }
 
     public void closeAccount(String acctId) {
-
+        BankAccount bankAccount = null;
+        for (BankAccount ba : bankAccounts) {
+            if (ba.getEmail().equals(acctId)) {
+                bankAccount = ba;
+                break;
+            }
+        }
+        if (bankAccount != null) {
+            bankTeller.closeAccount(bankAccount);
+            bankAccounts.remove(bankAccount);
+            closedAccounts.add(bankAccount);
+        }
     }
 
 
