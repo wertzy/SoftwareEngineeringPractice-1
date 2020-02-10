@@ -1,5 +1,6 @@
 package edu.ithaca.dragon.bank;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -23,11 +24,30 @@ public class CentralBank implements AdvancedAPI, AdminAPI {
         return 0;
     }
 
+    public static boolean isAmountValid(double amount) {
+        if(amount<=0) {
+            return false;
+        }
+        if(BigDecimal.valueOf(amount).scale()>2){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
     public void withdraw(String acctId, double amount) throws InsufficientFundsException {
+        if(!bankAccounts.contains(acctId)){
+            throw new InsufficientFundsException("account ID not found");
+        }
+        if(!isAmountValid(amount)){
+            throw new InsufficientFundsException("amount is invalid");
+        }
 
     }
 
     public void deposit(String acctId, double amount) {
+
 
     }
 
