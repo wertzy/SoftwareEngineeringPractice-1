@@ -2,9 +2,6 @@ package edu.ithaca.dragon.bank;
 
 public class ATM{
 
-    public BankAccount createAccount(String acctId, double startingBalance) throws InsufficientFundsException {
-        return new BankAccount(acctId, startingBalance);
-    }
 
     boolean confirmCredentials(String acctId, String password){
         return false;
