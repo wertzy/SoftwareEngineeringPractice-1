@@ -59,7 +59,7 @@ public class ATMTest {
     @Test
     public void transactionHistoryTest() {
         try {
-            BankAccount bankAccount = new BankAccount("a@mail.com", 1);
+            BankAccount bankAccount = new BankAccount("a@mail.com", "pass", 1);
             ATM atm = new ATM();
             int headerLength = "total transactions:".length();
 
