@@ -5,8 +5,10 @@ import java.math.BigDecimal;
 public class BankAccount {
 
     private String email;
-    public boolean isFrozen;
     private double balance;
+    public boolean isFrozen;
+    private boolean closed = false;
+    private int withdrawCount = 0;
 
     /**
      * @throws IllegalArgumentException if email is invalid
@@ -25,12 +27,28 @@ public class BankAccount {
     }
 
     public double getBalance(){
-        return balance;
+        if(!isFrozen) {
+            return balance;
+        }
+        else{
+            return 0;
+        }
     }
 
     public String getEmail(){
-        return email;
+        if(!isFrozen) {
+            return email;
+        }
+        else{
+            return"";
+        }
     }
+
+    public void setClosed(boolean bool) { closed = bool; }
+
+    public boolean isClosed() { return closed; }
+
+    public int getWithdrawCount() { return withdrawCount; }
 
 
     /**
@@ -50,8 +68,9 @@ public class BankAccount {
             throw new IllegalArgumentException("amount will overdraw the account");
         }
 
-        if (amount <= balance) {
+        if (amount <= balance && !isFrozen) {
             balance -= amount;
+            withdrawCount++;
         }
         else{
             throw new IllegalArgumentException("not enough money");
@@ -100,7 +119,9 @@ public class BankAccount {
         if(isAmountValid(amount)==false){
             throw new IllegalArgumentException("amount is invalid");
         }
-        balance += amount;
+        if(!isFrozen) {
+            balance += amount;
+        }
     }
     /**
      * @post transfers money from one bank account to another
@@ -112,7 +133,13 @@ public class BankAccount {
         if(balance-amount<0){
             throw new IllegalArgumentException("amount will overdraft bank account balance");
         }
-        balance -= amount;
-        otherBankAccount.balance += amount;
+        if(!isFrozen && !otherBankAccount.isItFrozen()) {
+            balance -= amount;
+            otherBankAccount.balance += amount;
+        }
+    }
+
+    public boolean isItFrozen(){
+        return isFrozen;
     }
 }
