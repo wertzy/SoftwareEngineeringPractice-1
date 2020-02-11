@@ -158,11 +158,19 @@ class BankAccountTest {
 
     @Test
     void totalTest() throws InsufficientFundsException {
+        //Standard test
         administrator newAccount = new administrator("a");
-        BankAccount bankAccount = new BankAccount("a@b.com", 1.00);
-        BankAccount bankAccount2 = new BankAccount("a@b.com", 2.00);
-        double checker = newAccount.calcTotalAssets();
+        CentralBank centralBank = new CentralBank();
+        centralBank.createAccount("a@b.com", 1.00);
+        centralBank.createAccount("a@b.com", 2.00);
+        double checker = newAccount.calcTotalAssets(centralBank);
         assertEquals(3.00, checker);
+        //0 Test
+        CentralBank centralBank2 = new CentralBank();
+        centralBank.createAccount("a@b.com", 1.00);
+        centralBank.createAccount("a@b.com", 0.00);
+        double checker2 = newAccount.calcTotalAssets(centralBank2);
+        assertEquals(1.00, checker2);
     }
 
     @Test
