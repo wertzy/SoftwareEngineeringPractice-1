@@ -24,8 +24,7 @@ public class ATMTest {
         ATM atm=new ATM();
         BankAccount ba=new BankAccount("a@mail.com",1000);
         atm.deposit(ba,500);
-        assertEquals(500,atm.checkBalance(ba));
-        assertThrows(IllegalArgumentException.class, () -> atm.deposit(ba,1000));
+        assertEquals(1500,atm.checkBalance(ba));
         assertThrows(IllegalArgumentException.class, () -> atm.deposit(ba,500.001));
         assertThrows(IllegalArgumentException.class, () -> atm.deposit(ba,-500));
 
