@@ -48,10 +48,17 @@ public class ATMTest {
         try {
             BankAccount bankAccount = new BankAccount("a@mail.com", 1);
             ATM atm = new ATM();
+            int headerLength = "total transactions:".length();
+
             // EQ: without transaction history
-            assertEquals(0, atm.transactionHistory(bankAccount).length());
+            assertEquals(0, Integer.parseInt(
+                    atm.transactionHistory(bankAccount).substring(headerLength, headerLength+1)
+            ));
             // EQ: with transaction history
-            assertEquals(100, atm.transactionHistory(bankAccount).length());
+            for (int i = 1; i < 101; i++) bankAccount.deposit(i);
+            assertEquals(100, Integer.parseInt(
+                    atm.transactionHistory(bankAccount).substring(headerLength, headerLength+1)
+            ));
         } catch(Exception e) {
             fail(e.getLocalizedMessage());
         }
