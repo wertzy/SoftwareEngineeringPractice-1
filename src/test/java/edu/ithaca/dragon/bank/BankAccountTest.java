@@ -131,53 +131,5 @@ class BankAccountTest {
         //transferring an amount thats more than 3 decimal places
         assertThrows(IllegalArgumentException.class, () -> bankAccount.transfer(0.001, otherBankAccount));
     }
-    @Test
-    void freezeTest() throws InsufficientFundsException{
-        administrator newAccount = new administrator("a");
-        BankAccount bankAccount = new BankAccount("a@b.com", 1.00);
-        newAccount.freezeAccount(bankAccount);
-        bankAccount.withdraw(1);
-        assertEquals(1, bankAccount.getBalance());
-        bankAccount.deposit(1);
-        assertEquals(1, bankAccount.getBalance());
-        BankAccount bankAccount2 = new BankAccount("a@b.com", 2.00);
-        bankAccount.transfer(1, bankAccount2);
-        assertEquals(1, bankAccount.getBalance());
-        bankAccount2.transfer(1, bankAccount);
-        assertEquals(1, bankAccount.getBalance());
-        newAccount.unfreezeAcct(bankAccount);
-        bankAccount.withdraw(1);
-        assertEquals(0, bankAccount.getBalance());
-        bankAccount.deposit(2);
-        assertEquals(2, bankAccount.getBalance());
-        bankAccount.transfer(2, bankAccount2);
-        assertEquals(0, bankAccount.getBalance());
-        bankAccount2.transfer(2, bankAccount);
-        assertEquals(2, bankAccount.getBalance());
-    }
 
-    @Test
-    void totalTest() throws InsufficientFundsException {
-        //Standard test
-        administrator newAccount = new administrator("a");
-        CentralBank centralBank = new CentralBank();
-        centralBank.createAccount("a@b.com", 1.00);
-        centralBank.createAccount("a@b.com", 2.00);
-        double checker = newAccount.calcTotalAssets(centralBank);
-        assertEquals(3.00, checker);
-        //0 Test
-        CentralBank centralBank2 = new CentralBank();
-        centralBank.createAccount("a@b.com", 1.00);
-        centralBank.createAccount("a@b.com", 0.00);
-        double checker2 = newAccount.calcTotalAssets(centralBank2);
-        assertEquals(1.00, checker2);
-    }
-
-    @Test
-    void suspActTest() throws InsufficientFundsException {
-        administrator newAccount = new administrator("a");
-        BankAccount bankAccount = new BankAccount("a@b.com", 1.00);
-        BankAccount bankAccount2 = new BankAccount("a@b.com", 2.00);
-        
-    }
 }

@@ -28,7 +28,7 @@ public class administrator{
     }
 
     public Collection<String> findAcctIdsWithSuspiciousActivity(CentralBank centralBank) {
-        Collection<String> returnable = new Collection<String>;
+        Collection<String> returnable = new Collection<String>[100];
         for (int i = 0; i < centralBank.getbankAccountsLength(); i++){
             int isItTooHigh = centralBank.getBankAccounts().get(i).getWithdrawCount();
             if (isItTooHigh > 100){
