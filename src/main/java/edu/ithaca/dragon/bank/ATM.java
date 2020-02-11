@@ -1,5 +1,7 @@
 package edu.ithaca.dragon.bank;
 
+import java.util.ArrayList;
+
 public class ATM{
 
 
@@ -44,7 +46,18 @@ public class ATM{
     }
 
     String transactionHistory(BankAccount bankAccount) {
-        return "";
+        ArrayList<Double> depositHistory = bankAccount.getDepositHistory();
+        ArrayList<Double> withdrawHistory = bankAccount.getWithdrawHistory();
+        int totalTransactions = depositHistory.size()+withdrawHistory.size();
+        String history = "total transactions:"+totalTransactions+"\n";
+
+        history += "--Deposit History--\n";
+        for (Double n : depositHistory) history += n.toString()+"\n";
+
+        history += "--Withdraw History--\n";
+        for (Double n : withdrawHistory) history += n.toString()+"\n";
+
+        return history;
     }
 
 }
