@@ -20,8 +20,13 @@ public class ATMTest {
     }
 
     @Test
-    public void depositTest(){
-        CentralBank centralBank = new CentralBank();
+    public void depositTest() throws InsufficientFundsException {
+        ATM atm=new ATM();
+        BankAccount ba=new BankAccount("a@mail.com",1000);
+        atm.deposit(ba,500);
+        assertEquals(1500,atm.checkBalance(ba));
+        assertThrows(IllegalArgumentException.class, () -> atm.deposit(ba,500.001));
+        assertThrows(IllegalArgumentException.class, () -> atm.deposit(ba,-500));
 
     }
 }

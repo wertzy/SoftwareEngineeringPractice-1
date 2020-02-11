@@ -18,8 +18,8 @@ public class ATM{
         account.withdraw(amount);
     }
 
-    void deposit(String acctId, double amount){
-
+    void deposit(BankAccount account, double amount){
+        account.deposit(amount);
     }
 
     void transfer(String acctIdToWithdrawFrom, String acctIdToDepositTo, double amount) throws InsufficientFundsException{
