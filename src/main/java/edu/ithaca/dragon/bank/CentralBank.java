@@ -29,7 +29,7 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
     public double checkBalance(String acctId) {
         for (BankAccount ba: bankAccounts){
             if(ba.getEmail().equals(acctId)){
-                return ba.getBalance();
+                return atm.checkBalance(ba);
             }
         }
         return -1;
@@ -48,9 +48,6 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
     }
 
     public void withdraw(String acctId, double amount) throws InsufficientFundsException, FrozenAccountException {
-        if (!bankAccounts.contains(acctId)) {
-            throw new InsufficientFundsException("account ID not found");
-        }
         if (!isAmountValid(amount)) {
             throw new InsufficientFundsException("amount is invalid");
         }
@@ -62,10 +59,6 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
     }
 
     public void deposit(String acctId, double amount) throws FrozenAccountException {
-        if (!bankAccounts.contains(acctId)) {
-            System.out.println("The account you entered does not exist");
-            return;
-        }
         for (BankAccount ba : bankAccounts) {
             if (ba.getEmail().equals(acctId)){
                 atm.deposit(ba,amount);
@@ -78,14 +71,6 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
 
         if (!isAmountValid(amount)) {
             throw new InsufficientFundsException("amount is invalid");
-        }
-        if (!bankAccounts.contains(acctIdToWithdrawFrom)) {
-            System.out.println("The account you entered does not exist");
-            return;
-        }
-        if (!bankAccounts.contains(acctIdToDepositTo)) {
-            System.out.println("The account you entered does not exist");
-            return;
         }
         BankAccount baWith = null;
         BankAccount baDepo = null;

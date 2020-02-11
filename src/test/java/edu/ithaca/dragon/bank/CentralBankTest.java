@@ -52,8 +52,16 @@ public class CentralBankTest {
 
 
     @Test
-    public void withdrawDepositTest(){
+    public void withdrawDepositTransferTest() throws FrozenAccountException, InsufficientFundsException {
         CentralBank centralBank = new CentralBank();
-
+        centralBank.createAccount("a@mail.com",500);
+        centralBank.deposit("a@mail.com",500);
+        assertEquals(1000,centralBank.checkBalance("a@mail.com"));
+        centralBank.withdraw("a@mail.com",250);
+        assertEquals(750,centralBank.checkBalance("a@mail.com"));
+        centralBank.createAccount("b@mail.com",500);
+        centralBank.transfer("a@mail.com","b@mail.com",250);
+        assertEquals(500,centralBank.checkBalance("a@mail.com"));
+        assertEquals(750,centralBank.checkBalance("b@mail.com"));
     }
 }
