@@ -48,7 +48,7 @@ public class BankAccount {
 
     public String getPassword() throws FrozenAccountException {
         if(!isFrozen) {
-            return email;
+            return password;
         }
         else{
             throw new FrozenAccountException("account is frozen");

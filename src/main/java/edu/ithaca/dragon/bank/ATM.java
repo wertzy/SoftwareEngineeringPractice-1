@@ -4,7 +4,13 @@ public class ATM{
 
 
     boolean confirmCredentials(String acctId, String password, BankAccount bankAccount) throws FrozenAccountException {
-        return bankAccount.getEmail().equals(acctId) && bankAccount.getPassword().equals(password);
+        if (!bankAccount.getEmail().equals(acctId)){
+            return false;
+        }
+        if(!bankAccount.getPassword().equals(password)){
+            return false;
+        }
+        return true;
     }
 
     double checkBalance(BankAccount account){

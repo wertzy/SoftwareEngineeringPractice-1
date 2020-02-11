@@ -11,7 +11,7 @@ public class ATMTest {
         ATM atm = new ATM();
         BankAccount bankAccount = new BankAccount("a@b.com", "a", 1.00);
         //Passing
-        assertTrue(atm.confirmCredentials("a@b.com", "a", bankAccount));
+        assertEquals(true, atm.confirmCredentials("a@b.com", "a", bankAccount));
         //Failure for email
         assertFalse(atm.confirmCredentials("a@.com", "a", bankAccount));
         //Failure for password
