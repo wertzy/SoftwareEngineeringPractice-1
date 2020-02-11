@@ -26,15 +26,13 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
         return false;
     }
 
-    public double checkBalance(String acctId) { /*
+    public double checkBalance(String acctId) {
         for (BankAccount ba: bankAccounts){
             if(ba.getEmail().equals(acctId)){
                 return ba.getBalance();
             }
         }
         return -1;
-        */
-        return 0;
     }
 
     public static boolean isAmountValid(double amount) {
