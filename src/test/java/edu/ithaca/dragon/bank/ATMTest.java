@@ -2,8 +2,7 @@ package edu.ithaca.dragon.bank;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ATMTest {
 
@@ -42,5 +41,19 @@ public class ATMTest {
         assertThrows(IllegalArgumentException.class, () -> atm.transfer(ba1,ba2,-500));
         assertThrows(IllegalArgumentException.class, () -> atm.transfer(ba1,ba2,1000));
 
+    }
+
+    @Test
+    public void transactionHistoryTest() {
+        try {
+            BankAccount bankAccount = new BankAccount("a@mail.com", 1);
+            ATM atm = new ATM();
+            // EQ: without transaction history
+            assertEquals(0, atm.transactionHistory("a@mail.com").length());
+            // EQ: with transaction history
+            assertEquals(100, atm.transactionHistory("a@mail.com").length());
+        } catch(Exception e) {
+            fail(e.getLocalizedMessage());
+        }
     }
 }
