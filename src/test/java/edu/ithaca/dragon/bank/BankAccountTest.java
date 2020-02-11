@@ -31,7 +31,8 @@ class BankAccountTest {
 
 
         //withdrawing with an empty bank account, this is a border case
-        BankAccount bankAccount3 = new BankAccount("a@b.com", 0);
+        BankAccount bankAccount3 = new BankAccount("a@b.com", 1);
+        bankAccount3.withdraw(1);
         assertThrows(IllegalArgumentException.class, () -> bankAccount3.withdraw(100));
 
 
