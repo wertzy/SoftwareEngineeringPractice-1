@@ -48,4 +48,12 @@ public class CentralBankTest {
         assertEquals(99, centralBank.getbankAccountsLength());
         assertEquals(101, centralBank.getClosedAccountsLength());
     }
+
+
+
+    @Test
+    public void withdrawDepositTest(){
+        CentralBank centralBank = new CentralBank();
+
+    }
 }
