@@ -8,7 +8,7 @@ public class BankTeller {
     throws InsufficientFundsException, IllegalArgumentException {
 
         for (BankAccount ba : bankAccounts) {
-            if (ba.getEmail().equals(acctId)) throw new IllegalArgumentException();
+            if (ba.getEmail().equals(acctId)) throw new IllegalArgumentException("Duplicate ID found.");
         }
         return new BankAccount(acctId, startingBalance);
    }
