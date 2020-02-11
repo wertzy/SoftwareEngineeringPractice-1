@@ -14,6 +14,10 @@ public class CentralBank implements AdvancedAPI, AdminAPI {
 
     public int getClosedAccountsLength() { return closedAccounts.size(); }
 
+    public ArrayList<BankAccount>  getBankAccounts() { return bankAccounts; }
+
+    public ArrayList<BankAccount>  getClosedAccounts() { return closedAccounts; }
+
     //----------------- BasicAPI methods -------------------------//
 
     public boolean confirmCredentials(String acctId, String password) {
