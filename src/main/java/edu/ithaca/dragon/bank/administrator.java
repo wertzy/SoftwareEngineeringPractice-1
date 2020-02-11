@@ -29,7 +29,7 @@ public class administrator{
         return returnValue;
     }
 
-    public Collection<String> findAcctIdsWithSuspiciousActivity(CentralBank centralBank) {
+    public Collection<String> findAcctIdsWithSuspiciousActivity(CentralBank centralBank) throws FrozenAccountException {
         List<String> returnable = new ArrayList<String>();
         for (int i = 0; i < centralBank.getbankAccountsLength(); i++){
             int isItTooHigh = centralBank.getBankAccounts().get(i).getWithdrawCount();

@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 public class BankTeller {
     public BankAccount createAccount
-    (String acctId, double startingBalance, ArrayList<BankAccount> bankAccounts)
-    throws InsufficientFundsException, IllegalArgumentException {
+    (String acctId, String password, double startingBalance, ArrayList<BankAccount> bankAccounts)
+            throws InsufficientFundsException, IllegalArgumentException, FrozenAccountException {
 
         for (BankAccount ba : bankAccounts) {
             if (ba.getEmail().equals(acctId)) throw new IllegalArgumentException("Duplicate ID found.");
         }
-        return new BankAccount(acctId, startingBalance);
+        return new BankAccount(acctId, password, startingBalance);
    }
 
    public void closeAccount(BankAccount bankAccount) {

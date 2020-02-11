@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 public class BankAccount {
 
     private String email;
+    private String password;
     private double balance;
     public boolean isFrozen;
     private boolean closed = false;
@@ -13,13 +14,14 @@ public class BankAccount {
     /**
      * @throws IllegalArgumentException if email is invalid
      */
-    public BankAccount(String email, double startingBalance) throws InsufficientFundsException {
+    public BankAccount(String email, String password, double startingBalance) throws InsufficientFundsException {
         if(isAmountValid(startingBalance)==false){
             throw new IllegalArgumentException("amount is invalid");
         }
         if (isEmailValid(email)){
             this.email = email;
             this.balance = startingBalance;
+            this.password = password;
         }
         else {
             throw new IllegalArgumentException("Email address: " + email + " is invalid, cannot create account");
@@ -35,12 +37,21 @@ public class BankAccount {
         }
     }
 
-    public String getEmail(){
+    public String getEmail() throws FrozenAccountException {
         if(!isFrozen) {
             return email;
         }
         else{
-            return"";
+            throw new FrozenAccountException("account is frozen");
+        }
+    }
+
+    public String getPassword() throws FrozenAccountException {
+        if(!isFrozen) {
+            return email;
+        }
+        else{
+            throw new FrozenAccountException("account is frozen");
         }
     }
 

@@ -3,8 +3,8 @@ package edu.ithaca.dragon.bank;
 public class ATM{
 
 
-    boolean confirmCredentials(String acctId, String password){
-        return false;
+    boolean confirmCredentials(String acctId, String password, BankAccount bankAccount) throws FrozenAccountException {
+        return bankAccount.getEmail().equals(acctId) && bankAccount.getPassword().equals(password);
     }
 
     double checkBalance(BankAccount account){
