@@ -93,6 +93,7 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
             if (baWith.getEmail().equals(acctIdToWithdrawFrom)) {
                 atm.withdraw(baWith, amount);
             }
+        }
             for (BankAccount baDepo : bankAccounts) {
                 if (baDepo.getEmail().equals(acctIdToDepositTo)) {
                     atm.deposit(baDepo, amount);
@@ -100,7 +101,7 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
             }
 
 
-        }
+        
     }
 
     public String transactionHistory(String acctId) {
