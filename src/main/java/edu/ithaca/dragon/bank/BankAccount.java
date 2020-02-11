@@ -7,6 +7,8 @@ public class BankAccount {
     private String email;
     public boolean isFrozen;
     private double balance;
+    private boolean closed = false;
+    private int withdrawCount = 0;
 
     /**
      * @throws IllegalArgumentException if email is invalid
@@ -32,6 +34,12 @@ public class BankAccount {
         return email;
     }
 
+    public void setClosed(boolean bool) { closed = bool; }
+
+    public boolean isClosed() { return closed; }
+
+    public int getWithdrawCount() { return withdrawCount; }
+
 
     /**
      * @post reduces the balance by amount if amount is non-negative and smaller than balance
@@ -52,6 +60,7 @@ public class BankAccount {
 
         if (amount <= balance) {
             balance -= amount;
+            withdrawCount++;
         }
         else{
             throw new IllegalArgumentException("not enough money");
