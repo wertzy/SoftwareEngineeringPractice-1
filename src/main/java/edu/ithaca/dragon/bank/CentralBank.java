@@ -49,7 +49,7 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
         }
     }
 
-    public void withdraw(String acctId, double amount) throws InsufficientFundsException {
+    public void withdraw(String acctId, double amount) throws InsufficientFundsException, FrozenAccountException {
         if (!bankAccounts.contains(acctId)) {
             throw new InsufficientFundsException("account ID not found");
         }
@@ -63,7 +63,7 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
             }
     }
 
-    public void deposit(String acctId, double amount)  {
+    public void deposit(String acctId, double amount) throws FrozenAccountException {
         if (!bankAccounts.contains(acctId)) {
             System.out.println("The account you entered does not exist");
             return;
@@ -76,7 +76,7 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
 
     }
 
-    public void transfer(String acctIdToWithdrawFrom, String acctIdToDepositTo, double amount) throws InsufficientFundsException {
+    public void transfer(String acctIdToWithdrawFrom, String acctIdToDepositTo, double amount) throws InsufficientFundsException, FrozenAccountException {
 
         if (!isAmountValid(amount)) {
             throw new InsufficientFundsException("amount is invalid");

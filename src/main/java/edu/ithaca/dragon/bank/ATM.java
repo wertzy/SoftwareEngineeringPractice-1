@@ -11,15 +11,15 @@ public class ATM{
         return account.getBalance();
     }
 
-    void withdraw(BankAccount account, double amount) throws InsufficientFundsException{
+    void withdraw(BankAccount account, double amount) throws InsufficientFundsException, FrozenAccountException {
         account.withdraw(amount);
     }
 
-    void deposit(BankAccount account, double amount){
+    void deposit(BankAccount account, double amount) throws FrozenAccountException {
         account.deposit(amount);
     }
 
-    void transfer(BankAccount baWith, BankAccount baDepo, double amount) throws InsufficientFundsException{
+    void transfer(BankAccount baWith, BankAccount baDepo, double amount) throws InsufficientFundsException, FrozenAccountException {
         if(!isTransferAmountValid(baWith,amount)){
             throw new InsufficientFundsException("amount value is either invalid or cause the bank withdrawing account to have a negative value ");
         }

@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ATMTest {
 
     @Test
-    public void withdrawTest() throws InsufficientFundsException {
+    public void withdrawTest() throws InsufficientFundsException, FrozenAccountException {
         ATM atm=new ATM();
         BankAccount ba=new BankAccount("a@mail.com",1000);
         atm.withdraw(ba,500);
@@ -20,7 +20,7 @@ public class ATMTest {
     }
 
     @Test
-    public void depositTest() throws InsufficientFundsException {
+    public void depositTest() throws InsufficientFundsException, FrozenAccountException {
         ATM atm=new ATM();
         BankAccount ba=new BankAccount("a@mail.com",1000);
         atm.deposit(ba,500);
@@ -31,7 +31,7 @@ public class ATMTest {
     }
 
     @Test
-    public void transferTest() throws InsufficientFundsException {
+    public void transferTest() throws InsufficientFundsException, FrozenAccountException {
         ATM atm=new ATM();
         BankAccount ba1=new BankAccount("a@mail.com",1000);
         BankAccount ba2=new BankAccount("a@mail.com",1000);

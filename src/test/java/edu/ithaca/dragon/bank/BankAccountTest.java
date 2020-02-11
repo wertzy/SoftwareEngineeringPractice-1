@@ -16,7 +16,7 @@ class BankAccountTest {
     }
 
     @Test
-    void withdrawTest() throws InsufficientFundsException {
+    void withdrawTest() throws InsufficientFundsException, FrozenAccountException {
         //Standard case withdrawal test, should withdraw succesfully
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
         bankAccount.withdraw(100);
@@ -87,7 +87,7 @@ class BankAccountTest {
     }
 
     @Test
-    void depositTest() throws InsufficientFundsException {
+    void depositTest() throws InsufficientFundsException, FrozenAccountException {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
         bankAccount.deposit(100);
         assertEquals(300, bankAccount.getBalance());
@@ -107,7 +107,7 @@ class BankAccountTest {
     }
 
     @Test
-    void transferTest() throws InsufficientFundsException {
+    void transferTest() throws InsufficientFundsException, FrozenAccountException {
         BankAccount bankAccount = new BankAccount("a@b.com", 500);
         BankAccount otherBankAccount = new BankAccount("a@b.com", 500);
         //testing transfer between two bank accounts

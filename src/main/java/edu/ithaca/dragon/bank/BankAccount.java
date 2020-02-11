@@ -5,8 +5,8 @@ import java.math.BigDecimal;
 public class BankAccount {
 
     private String email;
-    public boolean isFrozen;
     private double balance;
+    public boolean isFrozen;
     private boolean closed = false;
     private int withdrawCount = 0;
 
@@ -27,11 +27,21 @@ public class BankAccount {
     }
 
     public double getBalance(){
-        return balance;
+        if(!isFrozen) {
+            return balance;
+        }
+        else{
+            return 0;
+        }
     }
 
     public String getEmail(){
-        return email;
+        if(!isFrozen) {
+            return email;
+        }
+        else{
+            return"";
+        }
     }
 
     public void setClosed(boolean bool) { closed = bool; }
@@ -44,7 +54,7 @@ public class BankAccount {
     /**
      * @post reduces the balance by amount if amount is non-negative and smaller than balance
      */
-    public void withdraw (double amount) throws IllegalArgumentException, InsufficientFundsException {
+    public void withdraw (double amount) throws IllegalArgumentException, InsufficientFundsException, FrozenAccountException {
         if(isAmountValid(amount)==false){
             throw new IllegalArgumentException("amount is invalid");
         }
@@ -58,12 +68,16 @@ public class BankAccount {
             throw new IllegalArgumentException("amount will overdraw the account");
         }
 
+        if (isFrozen){
+            throw new FrozenAccountException("account is frozen");
+        }
+
         if (amount <= balance) {
             balance -= amount;
             withdrawCount++;
         }
         else{
-            throw new IllegalArgumentException("not enough money");
+            throw new InsufficientFundsException("not enough money");
         }
 
     }
@@ -105,23 +119,35 @@ public class BankAccount {
     /**
      * @post deposits money into bank account balance
      */
-    public void deposit(double amount){
+    public void deposit(double amount) throws FrozenAccountException {
         if(isAmountValid(amount)==false){
             throw new IllegalArgumentException("amount is invalid");
         }
-        balance += amount;
+        if(isFrozen) {
+            throw new FrozenAccountException("account is frozen");
+        }
+            balance += amount;
+
     }
     /**
      * @post transfers money from one bank account to another
      */
-    public void transfer(double amount,BankAccount otherBankAccount){
+    public void transfer(double amount,BankAccount otherBankAccount) throws FrozenAccountException {
         if(isAmountValid(amount)==false){
             throw new IllegalArgumentException("amount is invalid");
         }
         if(balance-amount<0){
             throw new IllegalArgumentException("amount will overdraft bank account balance");
         }
-        balance -= amount;
-        otherBankAccount.balance += amount;
+        if(isFrozen || otherBankAccount.isItFrozen()) {
+            throw new FrozenAccountException("account is frozen");
+        }
+            balance -= amount;
+            otherBankAccount.balance += amount;
+
+    }
+
+    public boolean isItFrozen(){
+        return isFrozen;
     }
 }
