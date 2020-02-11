@@ -37,7 +37,7 @@ public class ATM{
         return true;
     }
 
-    String transactionHistory(String acctId){
+    String transactionHistory(BankAccount bankAccount) {
         return "";
     }
 

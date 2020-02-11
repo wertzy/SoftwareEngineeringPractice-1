@@ -49,9 +49,9 @@ public class ATMTest {
             BankAccount bankAccount = new BankAccount("a@mail.com", 1);
             ATM atm = new ATM();
             // EQ: without transaction history
-            assertEquals(0, atm.transactionHistory("a@mail.com").length());
+            assertEquals(0, atm.transactionHistory(bankAccount).length());
             // EQ: with transaction history
-            assertEquals(100, atm.transactionHistory("a@mail.com").length());
+            assertEquals(100, atm.transactionHistory(bankAccount).length());
         } catch(Exception e) {
             fail(e.getLocalizedMessage());
         }
