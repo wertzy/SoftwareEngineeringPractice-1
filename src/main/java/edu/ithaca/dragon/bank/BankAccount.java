@@ -2,6 +2,8 @@ package edu.ithaca.dragon.bank;
 
 import java.math.BigDecimal;
 
+import java.util.ArrayList;
+
 public class BankAccount {
 
     private String email;
@@ -9,6 +11,8 @@ public class BankAccount {
     public boolean isFrozen;
     private boolean closed = false;
     private int withdrawCount = 0;
+    private ArrayList<Double> depositHistory = new ArrayList<Double>();
+    private ArrayList<Double> withdrawHistory = new ArrayList<Double>();
 
     /**
      * @throws IllegalArgumentException if email is invalid
@@ -50,6 +54,9 @@ public class BankAccount {
 
     public int getWithdrawCount() { return withdrawCount; }
 
+    public ArrayList<Double> getDepositHistory() { return depositHistory; }
+
+    public ArrayList<Double> getWithdrawHistory() { return withdrawHistory; }
 
     /**
      * @post reduces the balance by amount if amount is non-negative and smaller than balance
@@ -74,6 +81,7 @@ public class BankAccount {
 
         if (amount <= balance) {
             balance -= amount;
+            withdrawHistory.add(amount);
             withdrawCount++;
         }
         else{
@@ -127,7 +135,7 @@ public class BankAccount {
             throw new FrozenAccountException("account is frozen");
         }
             balance += amount;
-
+            depositHistory.add(amount);
     }
     /**
      * @post transfers money from one bank account to another
