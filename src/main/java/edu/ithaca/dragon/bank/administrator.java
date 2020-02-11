@@ -1,7 +1,9 @@
 package edu.ithaca.dragon.bank;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class administrator{
 
@@ -22,13 +24,13 @@ public class administrator{
     public double calcTotalAssets(CentralBank centralBank) {
         double returnValue = 0;
         for (int i = 0; i < centralBank.getbankAccountsLength(); i++){
-            returnValue += centralBank.getBankAccounts().get(i).getBalance();
+            returnValue = returnValue + centralBank.getBankAccounts().get(i).getBalance();
         }
         return returnValue;
     }
 
     public Collection<String> findAcctIdsWithSuspiciousActivity(CentralBank centralBank) {
-        Collection<String> returnable = new Collection<String>[100];
+        List<String> returnable = new ArrayList<String>();
         for (int i = 0; i < centralBank.getbankAccountsLength(); i++){
             int isItTooHigh = centralBank.getBankAccounts().get(i).getWithdrawCount();
             if (isItTooHigh > 100){

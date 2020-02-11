@@ -2,26 +2,24 @@ package edu.ithaca.dragon.bank;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AdministratorTest {
     @Test
-    void freezeTest() throws InsufficientFundsException{
+    void freezeTest() throws InsufficientFundsException, FrozenAccountException {
         administrator newAccount = new administrator("a");
         BankAccount bankAccount = new BankAccount("a@b.com", 1.00);
         //Basic freeze test for all methods.
         newAccount.freezeAccount(bankAccount);
-        bankAccount.withdraw(1);
-        assertEquals(1, bankAccount.getBalance());
-        bankAccount.deposit(1);
-        assertEquals(1, bankAccount.getBalance());
+        assertThrows(FrozenAccountException.class, ()-> bankAccount.withdraw(1));
+        assertThrows(FrozenAccountException.class, ()->bankAccount.deposit(1));
         BankAccount bankAccount2 = new BankAccount("a@b.com", 2.00);
-        bankAccount.transfer(1, bankAccount2);
-        assertEquals(1, bankAccount.getBalance());
-        bankAccount2.transfer(1, bankAccount);
-        assertEquals(1, bankAccount.getBalance());
+        assertThrows(FrozenAccountException.class, ()->bankAccount.transfer(1, bankAccount2));
+        assertThrows(FrozenAccountException.class, ()->bankAccount2.transfer(1, bankAccount));
         //Check that methods work after unfreezing.
         newAccount.unfreezeAcct(bankAccount);
         bankAccount.withdraw(1);
@@ -35,34 +33,36 @@ public class AdministratorTest {
     }
 
     @Test
-    void totalTest() throws InsufficientFundsException {
+    void totalTest() {
         //Standard test
         administrator newAccount = new administrator("a");
         CentralBank centralBank = new CentralBank();
         centralBank.createAccount("a@b.com", 1.00);
-        centralBank.createAccount("a@b.com", 2.00);
         double checker = newAccount.calcTotalAssets(centralBank);
+        assertEquals(1.00, checker);
+        centralBank.createAccount("b@a.com", 2.00);
+        checker = newAccount.calcTotalAssets(centralBank);
         assertEquals(3.00, checker);
         //0 Test
         CentralBank centralBank2 = new CentralBank();
-        centralBank.createAccount("a@b.com", 1.00);
-        centralBank.createAccount("a@b.com", 0.00);
-        double checker2 = newAccount.calcTotalAssets(centralBank2);
-        assertEquals(1.00, checker2);
+        centralBank2.createAccount("a@b.com", 1.00);
+        centralBank2.createAccount("b@a.com", 0.00);
+        checker = newAccount.calcTotalAssets(centralBank2);
+        assertEquals(1.00, checker);
     }
 
     @Test
-    void suspActTest(){
+    void suspActTest() throws InsufficientFundsException, FrozenAccountException {
         //Basic test
         administrator newAccount = new administrator("a");
         CentralBank centralBank = new CentralBank();
-        centralBank.createAccount("a@b.com", 1.01);
-        for (int i = 0; i < 100; i++){
-            centralBank.getBankAccounts().get(i).withdraw(0.01);
+        centralBank.createAccount("a@b.com", 2.00);
+        for (int i = 0; i < 150; i++){
+            centralBank.getBankAccounts().get(0).withdraw(0.01);
         }
-        Collection<String> testCollect = new Collection<String>[5];
+        Collection<String> testCollect = new ArrayList<String>();
         testCollect = newAccount.findAcctIdsWithSuspiciousActivity(centralBank);
-        assertEquals("false", testCollect.isEmpty());
+        assertEquals(false, testCollect.isEmpty());
     }
 
     @Test
@@ -71,21 +71,20 @@ public class AdministratorTest {
     }
 
     @Test
-    void systemTest(){
-        administrator newAccount = new administrator;
+    void systemTest() throws FrozenAccountException {
+        administrator newAccount = new administrator("a");
         CentralBank centralBank = new CentralBank();
         centralBank.createAccount("a@b.com", 1.00);
         for (int i = 0; i < 100; i++){
-            if(!CentralBank.getBankAccounts().get(0).isItFrozen){
-                newAccount.freezeAccount(CentralBank.getBankAccounts().get(0));
+            if(!centralBank.getBankAccounts().get(0).isItFrozen()){
+                newAccount.freezeAccount(centralBank.getBankAccounts().get(0));
             }else{
-                newAccount.unfreezeAcct(CentralBank.getBankAccounts().get(0));
+                newAccount.unfreezeAcct(centralBank.getBankAccounts().get(0));
             }
-            CentralBank.getBankAccounts().get(0).deposit(1.00);
+            centralBank.getBankAccounts().get(0).deposit(1.00);
         }
-        assertEquals(51.00, getBankAccounts().get(0).getBalance);
-        Collection<String> testCollect = new Collection<String>[5];
-        testCollect = newAccount.findAcctIdsWithSuspiciousActivity(centralBank);
-        assertEquals("true", testCollect.isEmpty());
+        assertEquals(51.00, centralBank.getBankAccounts().get(0).getBalance());
+        Collection<String> testCollect = newAccount.findAcctIdsWithSuspiciousActivity(centralBank);
+        assertEquals(true, testCollect.isEmpty());
     }
 }
