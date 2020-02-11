@@ -29,4 +29,15 @@ public class ATMTest {
         assertThrows(IllegalArgumentException.class, () -> atm.deposit(ba,-500));
 
     }
+
+    @Test
+    public void transferTest() throws InsufficientFundsException {
+        ATM atm=new ATM();
+        BankAccount ba1=new BankAccount("a@mail.com",1000);
+        BankAccount ba2=new BankAccount("a@mail.com",1000);
+        atm.transfer(ba1,ba2,500);
+        assertEquals(1500,atm.checkBalance(ba));
+
+
+    }
 }

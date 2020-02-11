@@ -89,19 +89,23 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
             System.out.println("The account you entered does not exist");
             return;
         }
-        for (BankAccount baWith : bankAccounts) {
-            if (baWith.getEmail().equals(acctIdToWithdrawFrom)) {
-                atm.withdraw(baWith, amount);
+        BankAccount baWith = null;
+        BankAccount baDepo = null;
+        for (BankAccount ba1 : bankAccounts) {
+            if (ba1.getEmail().equals(acctIdToWithdrawFrom)) {
+                baWith=ba1;
+                break;
             }
         }
-            for (BankAccount baDepo : bankAccounts) {
-                if (baDepo.getEmail().equals(acctIdToDepositTo)) {
-                    atm.deposit(baDepo, amount);
-                }
+        for (BankAccount ba2 : bankAccounts) {
+            if (ba2.getEmail().equals(acctIdToDepositTo)) {
+                baDepo=ba2;
+                break;
             }
+        }
+        atm.transfer(baWith,baDepo,amount);
 
 
-        
     }
 
     public String transactionHistory(String acctId) {
