@@ -59,6 +59,7 @@ public class BankAccount {
 
         if (amount <= balance) {
             balance -= amount;
+            withdrawCount++;
         }
         else{
             throw new IllegalArgumentException("not enough money");
