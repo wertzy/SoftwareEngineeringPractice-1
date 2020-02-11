@@ -1,10 +1,14 @@
 package edu.ithaca.dragon.bank;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class CentralBank implements AdvancedAPI, AdminAPI {
 
     //----------------- BasicAPI methods -------------------------//
+
+    public ArrayList<BankAccount> bankAccounts = new ArrayList<BankAccount>(100);
+    private ArrayList<BankAccount> closedAccounts = new ArrayList<BankAccount>(100);
 
     public boolean confirmCredentials(String acctId, String password) {
         return false;
