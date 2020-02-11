@@ -78,7 +78,7 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
 
     public void transfer(String acctIdToWithdrawFrom, String acctIdToDepositTo, double amount) throws InsufficientFundsException {
 
-        if(!isAmountValid(amount)){
+        if (!isAmountValid(amount)) {
             throw new InsufficientFundsException("amount is invalid");
         }
         if (!bankAccounts.contains(acctIdToWithdrawFrom)) {
@@ -90,17 +90,17 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
             return;
         }
         for (BankAccount baWith : bankAccounts) {
-            if (baWith.getEmail().equals(acctIdToWithdrawFrom)){
-                atm.deposit(baWith,amount);
+            if (baWith.getEmail().equals(acctIdToWithdrawFrom)) {
+                atm.withdraw(baWith, amount);
             }
-        for (BankAccount baDepo : bankAccounts) {
-            if (baDepo.getEmail().equals(acctIdToDepositTo)){
-                atm.deposit(baDepo,amount);
+            for (BankAccount baDepo : bankAccounts) {
+                if (baDepo.getEmail().equals(acctIdToDepositTo)) {
+                    atm.deposit(baDepo, amount);
+                }
             }
+
+
         }
-
-
-
     }
 
     public String transactionHistory(String acctId) {
