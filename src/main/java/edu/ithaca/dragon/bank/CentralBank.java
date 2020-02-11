@@ -22,11 +22,15 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
     //----------------- BasicAPI methods -------------------------//
 
 
-    public boolean confirmCredentials(String acctId, String password) {
-        return false;
+    public boolean confirmCredentials(String acctId, String password, BankAccount bankAccount) throws FrozenAccountException {
+        if( bankAccount.getEmail()==acctId && bankAccount.getPassword()==password){
+            return true;
+        } else{
+            return false;
+        }
     }
 
-    public double checkBalance(String acctId) {
+    public double checkBalance(String acctId) throws FrozenAccountException {
         for (BankAccount ba: bankAccounts){
             if(ba.getEmail().equals(acctId)){
                 return atm.checkBalance(ba);
@@ -98,16 +102,16 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
 
     //----------------- AdvancedAPI methods -------------------------//
 
-    public void createAccount(String acctId, double startingBalance) {
+    public void createAccount(String acctId, String password, double startingBalance) {
         try {
-            BankAccount newBankAccount =  bankTeller.createAccount(acctId, startingBalance, bankAccounts);
+            BankAccount newBankAccount =  bankTeller.createAccount(acctId, password, startingBalance, bankAccounts);
             bankAccounts.add(newBankAccount);
         } catch(Exception e) {
             System.out.println(e.getLocalizedMessage());
         }
     }
 
-    public void closeAccount(String acctId) {
+    public void closeAccount(String acctId) throws FrozenAccountException {
         BankAccount bankAccount = null;
         for (BankAccount ba : bankAccounts) {
             if (ba.getEmail().equals(acctId)) {
