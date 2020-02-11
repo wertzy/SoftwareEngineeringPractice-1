@@ -20,11 +20,12 @@ public class ATM{
     }
 
     void transfer(BankAccount baWith, BankAccount baDepo, double amount) throws InsufficientFundsException, FrozenAccountException {
-        if(!isTransferAmountValid(baWith,amount)){
-            throw new InsufficientFundsException("amount value is either invalid or cause the bank withdrawing account to have a negative value ");
+        try {
+            baWith.withdraw(amount);
+            baDepo.deposit(amount);
         }
-        baWith.withdraw(amount);
-        baDepo.deposit(amount);
+        finally{
+        }
     }
     boolean isTransferAmountValid(BankAccount baWith, double amount){
         if(!baWith.isAmountValid(amount)){
