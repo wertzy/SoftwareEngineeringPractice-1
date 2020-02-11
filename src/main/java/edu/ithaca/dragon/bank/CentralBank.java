@@ -64,27 +64,46 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
     }
 
     public void deposit(String acctId, double amount)  {
-        /*
         if (!bankAccounts.contains(acctId)) {
             System.out.println("The account you entered does not exist");
             return;
         }
-        if (!isAmountValid(amount)) {
-            System.out.println("The amount you inputted is not valid");
-            return;
-        }
         for (BankAccount ba : bankAccounts) {
             if (ba.getEmail().equals(acctId)){
-                ba.deposit(amount);
+                atm.deposit(ba,amount);
             }
-        } */
+        }
 
     }
 
     public void transfer(String acctIdToWithdrawFrom, String acctIdToDepositTo, double amount) throws InsufficientFundsException {
-        if(!isAmountValid(amount)){
+
+        if (!isAmountValid(amount)) {
             throw new InsufficientFundsException("amount is invalid");
         }
+        if (!bankAccounts.contains(acctIdToWithdrawFrom)) {
+            System.out.println("The account you entered does not exist");
+            return;
+        }
+        if (!bankAccounts.contains(acctIdToDepositTo)) {
+            System.out.println("The account you entered does not exist");
+            return;
+        }
+        BankAccount baWith = null;
+        BankAccount baDepo = null;
+        for (BankAccount ba1 : bankAccounts) {
+            if (ba1.getEmail().equals(acctIdToWithdrawFrom)) {
+                baWith=ba1;
+                break;
+            }
+        }
+        for (BankAccount ba2 : bankAccounts) {
+            if (ba2.getEmail().equals(acctIdToDepositTo)) {
+                baDepo=ba2;
+                break;
+            }
+        }
+        atm.transfer(baWith,baDepo,amount);
 
 
     }
