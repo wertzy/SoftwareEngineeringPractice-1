@@ -40,7 +40,6 @@ public class ATMTest {
         assertThrows(IllegalArgumentException.class, () -> atm.transfer(ba1,ba2,500.001));
         assertThrows(IllegalArgumentException.class, () -> atm.transfer(ba1,ba2,-500));
         assertThrows(IllegalArgumentException.class, () -> atm.transfer(ba1,ba2,1000));
-
     }
 
     @Test
@@ -51,14 +50,23 @@ public class ATMTest {
             int headerLength = "total transactions:".length();
 
             // EQ: without transaction history
-            assertEquals(0, Integer.parseInt(
-                    atm.transactionHistory(bankAccount).substring(headerLength, headerLength+1)
-            ));
+            String transactionCountStart = atm.transactionHistory(bankAccount).substring(headerLength);
+            String strCount = "";
+            int i = 0, transactionCount = 0;
+            while (transactionCountStart.charAt(i) != '\n') strCount += transactionCountStart.charAt(i++);
+            transactionCount = Integer.parseInt(strCount);
+            assertEquals(0, transactionCount);
+
             // EQ: with transaction history
-            for (int i = 1; i < 101; i++) bankAccount.deposit(i);
-            assertEquals(100, Integer.parseInt(
-                    atm.transactionHistory(bankAccount).substring(headerLength, headerLength+1)
-            ));
+            for (i = 1; i < 51; i++) bankAccount.deposit(i);
+            for (i = 1; i < 51; i++) bankAccount.withdraw(i);
+            transactionCountStart = atm.transactionHistory(bankAccount).substring(headerLength);
+            i = 0;
+            strCount = "";
+            while (transactionCountStart.charAt(i) != '\n') strCount += transactionCountStart.charAt(i++);
+            transactionCount = Integer.parseInt(strCount);
+            assertEquals(100, transactionCount);
+            System.out.println(atm.transactionHistory(bankAccount));
         } catch(Exception e) {
             fail(e.getLocalizedMessage());
         }
