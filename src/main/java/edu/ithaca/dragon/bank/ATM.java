@@ -18,7 +18,7 @@ public class ATM{
         account.withdraw(amount);
     }
 
-    void deposit(String acctId, double amount){
+    void deposit(BankAccount account, double amount){
 
     }
 
