@@ -7,6 +7,7 @@ public class BankAccount {
     private String email;
     private double balance;
     private boolean closed = false;
+    private int withdrawCount = 0;
 
     /**
      * @throws IllegalArgumentException if email is invalid
@@ -35,6 +36,8 @@ public class BankAccount {
     public void setClosed(boolean bool) { closed = bool; }
 
     public boolean isClosed() { return closed; }
+
+    public int getWithdrawCount() { return withdrawCount; }
 
 
     /**
