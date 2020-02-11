@@ -21,18 +21,21 @@ public class administrator{
 
     public double calcTotalAssets(CentralBank centralBank) {
         double returnValue = 0;
-        for (int i = 0; i < centralBank.bankAccounts.size(); i++){
-            returnValue += centralBank.bankAccounts.get(i).getBalance();
+        for (int i = 0; i < centralBank.getbankAccountsLength(); i++){
+            returnValue += centralBank.getBankAccounts().get(i).getBalance();
         }
         return returnValue;
     }
 
-    public String findAcctIdsWithSuspiciousActivity() {
-        return "";
-    }
-
-    public boolean passwordChecker(String password){
-        return true;
+    public Collection<String> findAcctIdsWithSuspiciousActivity(CentralBank centralBank) {
+        Collection<String> returnable = new Collection<String>;
+        for (int i = 0; i < centralBank.getbankAccountsLength(); i++){
+            int isItTooHigh = centralBank.getBankAccounts().get(i).getWithdrawCount();
+            if (isItTooHigh > 100){
+                returnable.add(centralBank.getBankAccounts().get(i).getEmail());
+            }
+        }
+        return returnable;
     }
 
 }
