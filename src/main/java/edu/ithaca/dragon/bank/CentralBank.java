@@ -4,11 +4,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class CentralBank implements AdvancedAPI, AdminAPI {
+public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
 
     private ArrayList<BankAccount> bankAccounts = new ArrayList<BankAccount>(100);
     private ArrayList<BankAccount> closedAccounts = new ArrayList<BankAccount>(100);
     private BankTeller bankTeller = new BankTeller();
+    private ATM atm=new ATM();
 
     public int getbankAccountsLength() { return bankAccounts.size(); }
 
@@ -16,11 +17,19 @@ public class CentralBank implements AdvancedAPI, AdminAPI {
 
     //----------------- BasicAPI methods -------------------------//
 
+
     public boolean confirmCredentials(String acctId, String password) {
         return false;
     }
 
-    public double checkBalance(String acctId) {
+    public double checkBalance(String acctId) { /*
+        for (BankAccount ba: bankAccounts){
+            if(ba.getEmail().equals(acctId)){
+                return ba.getBalance();
+            }
+        }
+        return -1;
+        */
         return 0;
     }
 
@@ -37,21 +46,42 @@ public class CentralBank implements AdvancedAPI, AdminAPI {
     }
 
     public void withdraw(String acctId, double amount) throws InsufficientFundsException {
-        if(!bankAccounts.contains(acctId)){
+        if (!bankAccounts.contains(acctId)) {
             throw new InsufficientFundsException("account ID not found");
         }
-        if(!isAmountValid(amount)){
+        if (!isAmountValid(amount)) {
             throw new InsufficientFundsException("amount is invalid");
         }
-
+            for (BankAccount ba : bankAccounts) {
+                if (ba.getEmail().equals(acctId)){
+                    atm.withdraw(ba,amount);
+                }
+            }
     }
 
-    public void deposit(String acctId, double amount) {
-
+    public void deposit(String acctId, double amount)  {
+        /*
+        if (!bankAccounts.contains(acctId)) {
+            System.out.println("The account you entered does not exist");
+            return;
+        }
+        if (!isAmountValid(amount)) {
+            System.out.println("The amount you inputted is not valid");
+            return;
+        }
+        for (BankAccount ba : bankAccounts) {
+            if (ba.getEmail().equals(acctId)){
+                ba.deposit(amount);
+            }
+        } */
 
     }
 
     public void transfer(String acctIdToWithdrawFrom, String acctIdToDepositTo, double amount) throws InsufficientFundsException {
+        if(!isAmountValid(amount)){
+            throw new InsufficientFundsException("amount is invalid");
+        }
+
 
     }
 
