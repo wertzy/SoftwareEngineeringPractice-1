@@ -66,8 +66,17 @@ public class AdministratorTest {
     }
 
     @Test
-    void integrationTest(){
-
+    void integrationTest() throws FrozenAccountException {
+        administrator newAccount = new administrator("a");
+        CentralBank centralBank = new CentralBank();
+        centralBank.createAccount("a@b.com", 1.00);
+        centralBank.getBankAccounts().get(0).deposit(1.00);
+        assertEquals(2.00, newAccount.calcTotalAssets(centralBank));
+        newAccount.freezeAccount(centralBank.getBankAccounts().get(0));
+        assertThrows(FrozenAccountException.class, ()->centralBank.getBankAccounts().get(0).withdraw(1));
+        newAccount.unfreezeAcct(centralBank.getBankAccounts().get(0));
+        centralBank.getBankAccounts().get(0).deposit(1.00);
+        assertEquals(3.00, centralBank.getBankAccounts().get(0).getBalance());
     }
 
     @Test
@@ -81,9 +90,13 @@ public class AdministratorTest {
             }else{
                 newAccount.unfreezeAcct(centralBank.getBankAccounts().get(0));
             }
-            centralBank.getBankAccounts().get(0).deposit(1.00);
+            if(!centralBank.getBankAccounts().get(0).isItFrozen()) {
+                centralBank.getBankAccounts().get(0).deposit(1.00);
+            }else{
+                assertThrows(FrozenAccountException.class, ()-> centralBank.getBankAccounts().get(0).withdraw(1));
+            }
         }
-        assertEquals(51.00, centralBank.getBankAccounts().get(0).getBalance());
+        assertEquals(51.00, newAccount.calcTotalAssets(centralBank));
         Collection<String> testCollect = newAccount.findAcctIdsWithSuspiciousActivity(centralBank);
         assertEquals(true, testCollect.isEmpty());
     }
