@@ -117,10 +117,7 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
 
     public void createAccount(String acctId, double startingBalance) {
         try {
-            for (BankAccount ba : bankAccounts) {
-                if (ba.getEmail().equals(acctId)) return;
-            }
-            BankAccount newBankAccount =  bankTeller.createAccount(acctId, startingBalance);
+            BankAccount newBankAccount =  bankTeller.createAccount(acctId, startingBalance, bankAccounts);
             bankAccounts.add(newBankAccount);
         } catch(Exception e) {
             System.out.println(e.getLocalizedMessage());

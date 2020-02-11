@@ -6,6 +6,10 @@ public class BankTeller {
     public BankAccount createAccount
     (String acctId, double startingBalance, ArrayList<BankAccount> bankAccounts)
     throws InsufficientFundsException, IllegalArgumentException {
+
+        for (BankAccount ba : bankAccounts) {
+            if (ba.getEmail().equals(acctId)) throw new IllegalArgumentException();
+        }
         return new BankAccount(acctId, startingBalance);
    }
 
