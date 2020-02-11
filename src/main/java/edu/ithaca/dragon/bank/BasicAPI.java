@@ -3,9 +3,9 @@ package edu.ithaca.dragon.bank;
 //API to be used by ATMs
 public interface BasicAPI {
 
-    boolean confirmCredentials(String acctId, String password);
+    boolean confirmCredentials(String acctId, String password, BankAccount bankAccount) throws FrozenAccountException;
 
-    double checkBalance(String acctId);
+    double checkBalance(String acctId) throws FrozenAccountException;
 
     void withdraw(String acctId, double amount) throws InsufficientFundsException, FrozenAccountException;
 
