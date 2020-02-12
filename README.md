@@ -16,3 +16,8 @@ Sequence Diagrams:
 - Desmond:  https://drive.google.com/file/d/1T85L5rDy5vOj05qGoO0xSkAvodx7L5Bp/view?usp=sharing
 - Scott: https://drive.google.com/open?id=1uTjm5kt0rwl1s4wvMTClkAH1wp20gX9e
 - Peter: https://drive.google.com/file/d/1a9cW1o6u90JWY41C74O3oJU5Z75MpUu-/view?usp=sharing
+
+The Plan: 
+ - Desmond: BIG Systems Test, fixixng exceptions
+ - Scott: Systems test, duplicate email check (checking method), fixing exceptions, bank tellers
+ - Peter: Account types, fixing exceptions, password checker
