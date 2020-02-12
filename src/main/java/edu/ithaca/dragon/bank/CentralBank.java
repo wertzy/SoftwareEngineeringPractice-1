@@ -96,7 +96,21 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
     }
 
     public String transactionHistory(String acctId) {
-        return null;
+        BankAccount bankAccount = null;
+        String history = "";
+        for (BankAccount ba : bankAccounts) {
+            try {
+                if (ba.getEmail().equals(acctId)) {
+                    bankAccount = ba;
+                    break;
+                }
+            } catch (Exception e) {
+                System.out.println(e.getLocalizedMessage());
+            }
+        }
+        if (bankAccount != null) history = atm.transactionHistory(bankAccount);
+        else history = "No such account";
+        return history;
     }
 
 
