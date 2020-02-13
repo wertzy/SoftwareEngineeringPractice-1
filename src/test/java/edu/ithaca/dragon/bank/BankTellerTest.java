@@ -39,4 +39,17 @@ public class BankTellerTest {
             fail(e.getMessage());
         }
     }
+
+    @Test
+    public void withdrawTest() {
+        BankTeller bankTeller = new BankTeller();
+        try {
+            BankAccount bankAccount = new BankAccount("a@b.com", "a", 100);
+            // EQ: bank account is withdrawn from (calls bankAccount.withdraw)
+            bankTeller.withdraw(bankAccount, 1);
+            assertEquals(99, bankAccount.getBalance());
+        } catch(Exception e) {
+            fail(e.getMessage());
+        }
+    }
 }

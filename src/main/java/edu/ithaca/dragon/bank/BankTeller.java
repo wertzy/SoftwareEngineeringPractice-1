@@ -16,4 +16,7 @@ public class BankTeller {
    public void closeAccount(BankAccount bankAccount) {
         bankAccount.setClosed(true);
    }
+
+   public void withdraw(BankAccount bankAccount, double amount)
+           throws IllegalArgumentException, InsufficientFundsException, FrozenAccountException {  }
 }
