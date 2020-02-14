@@ -22,5 +22,7 @@ public class BankTeller {
         bankAccount.withdraw(amount);
    }
 
-    public void deposit(BankAccount bankAccount, double amount) throws FrozenAccountException { }
+    public void deposit(BankAccount bankAccount, double amount) throws FrozenAccountException {
+        bankAccount.deposit(amount);
+    }
 }
