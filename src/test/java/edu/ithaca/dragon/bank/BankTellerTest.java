@@ -17,10 +17,22 @@ public class BankTellerTest {
             //EQ: create a bank account
             BankAccount bankAccount = bankTeller.createAccount("a@@b.com", "abcdef1@","checking",100, bankAccounts);
             assertEquals("BankAccount", bankAccount.getClass().getSimpleName());
-            //EQ: create a duplicate bank account
+            //EQ: create a duplicate checking bank account
             assertThrows(
                 IllegalArgumentException.class,
                 () -> bankTeller.createAccount("1@mail.com", "abcdef1@", "checking",100, bankAccounts)
+            );
+            try {
+                //EQ: create a savings account for a customer with a checking account
+                BankAccount bankAccount1 = bankTeller.createAccount("1@mail.com", "abcdef1@", "savings",100, bankAccounts);
+                bankAccounts.add(bankAccount1);
+            } catch(Exception e) {
+                fail("Failed after creating savings account for customer who only has checking account");
+            }
+            //EQ: create a third account for customer who already has one of each type of account
+            assertThrows(
+                IllegalArgumentException.class,
+                () -> bankTeller.createAccount("1@mail.com", "abcdef1@", "savings",100, bankAccounts)
             );
         } catch(Exception e) {
             fail(e.getMessage());
