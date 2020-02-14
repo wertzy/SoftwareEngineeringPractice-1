@@ -21,4 +21,6 @@ public class BankTeller {
        throws IllegalArgumentException, InsufficientFundsException, FrozenAccountException {
         bankAccount.withdraw(amount);
    }
+
+    public void deposit(BankAccount bankAccount, double amount) throws FrozenAccountException { }
 }

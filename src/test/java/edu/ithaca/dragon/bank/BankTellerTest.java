@@ -52,4 +52,17 @@ public class BankTellerTest {
             fail(e.getMessage());
         }
     }
+
+    @Test
+    public void depositTest() {
+        BankTeller bankTeller = new BankTeller();
+        try {
+            BankAccount bankAccount = new BankAccount("a@b.com", "a", 100);
+            // EQ: bank account is deposited to (calls bankAccount.deposit)
+            bankTeller.deposit(bankAccount, 1);
+            assertEquals(101, bankAccount.getBalance());
+        } catch(Exception e) {
+            fail(e.getMessage());
+        }
+    }
 }
