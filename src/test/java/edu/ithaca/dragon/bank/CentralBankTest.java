@@ -9,21 +9,21 @@ public class CentralBankTest {
     @Test
     public void createAccountTest() throws InsufficientFundsException {
         CentralBank centralBank = new CentralBank();
-        centralBank.createAccount("a@b.c", "abcdef1@", 100);
+        centralBank.createAccount("a@b.c", "abcdef1@", "checking",100);
 
         //EQ: 1 account created
         assertEquals(1, centralBank.getbankAccountsLength());
 
         //EQ: 100 accounts created
-        for (int i = 1; i < 100; i++) centralBank.createAccount(i+""+"@mail.com", "abcdef1@",100);
+        for (int i = 1; i < 100; i++) centralBank.createAccount(i+""+"@mail.com", "abcdef1@","checking",100);
         assertEquals(100, centralBank.getbankAccountsLength());
 
         //EQ: 101 accounts created (exceeding limit - border case)
-        centralBank.createAccount("b@c.d", "abcdef1@",100);
+        centralBank.createAccount("b@c.d", "abcdef1@","checking",100);
         assertEquals(101, centralBank.getbankAccountsLength());
 
         // EQ: create an account with an existing id (border case)
-        centralBank.createAccount("1@mail.com", "abcdef1@", 100);
+        centralBank.createAccount("1@mail.com", "abcdef1@", "checking",100);
         assertEquals(101, centralBank.getbankAccountsLength());
     }
 
@@ -31,7 +31,7 @@ public class CentralBankTest {
     public void closeAccountTest() throws FrozenAccountException {
         CentralBank centralBank = new CentralBank();
         // fill bank with accounts
-        for (int i = 1; i < 201; i++) centralBank.createAccount(i+""+"@mail.com", "abcdef1@", 100);
+        for (int i = 1; i < 201; i++) centralBank.createAccount(i+""+"@mail.com", "abcdef1@", "checking",100);
 
         // EQ: close 1 account
         centralBank.closeAccount("1@mail.com");
@@ -54,12 +54,12 @@ public class CentralBankTest {
     @Test
     public void withdrawDepositTransferTest() throws FrozenAccountException, InsufficientFundsException {
         CentralBank centralBank = new CentralBank();
-        centralBank.createAccount("a@mail.com","abcdef1@", 500);
+        centralBank.createAccount("a@mail.com","abcdef1@","checking", 500);
         centralBank.deposit("a@mail.com",500);
         assertEquals(1000,centralBank.checkBalance("a@mail.com"));
         centralBank.withdraw("a@mail.com",250);
         assertEquals(750,centralBank.checkBalance("a@mail.com"));
-        centralBank.createAccount("b@mail.com","abcdef1@", 500);
+        centralBank.createAccount("b@mail.com","abcdef1@","checking", 500);
         centralBank.transfer("a@mail.com","b@mail.com",250);
         assertEquals(500,centralBank.checkBalance("a@mail.com"));
         assertEquals(750,centralBank.checkBalance("b@mail.com"));
@@ -69,7 +69,7 @@ public class CentralBankTest {
     public void transactionHistoryTest() {
         CentralBank centralBank = new CentralBank();
 
-        for (int i = 1; i < 10; i++) centralBank.createAccount(i+"@mail.com", "abcdef1@", 1);
+        for (int i = 1; i < 10; i++) centralBank.createAccount(i+"@mail.com", "abcdef1@","checking", 1);
 
         // EQ: Non-existent account
         assertEquals(true, centralBank.transactionHistory("a@b.com").equals("No such account"));

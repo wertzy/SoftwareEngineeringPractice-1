@@ -8,6 +8,7 @@ public class BankAccount {
 
     private String email;
     private String password;
+    private String type;
     private double balance;
     public boolean isFrozen;
     private boolean closed = false;
@@ -18,7 +19,7 @@ public class BankAccount {
     /**
      * @throws IllegalArgumentException if email is invalid
      */
-    public BankAccount(String email, String password, double startingBalance) throws InsufficientFundsException {
+    public BankAccount(String email, String password, String type, double startingBalance) throws InsufficientFundsException {
         if(isAmountValid(startingBalance)==false){
             throw new IllegalArgumentException("amount is invalid");
         }
@@ -34,6 +35,15 @@ public class BankAccount {
             this.password = password;
         } else {
             throw new IllegalArgumentException("Password: " + password + " is invalid, cannot create account");
+        }
+        if(type=="savings"){
+            this.type = type;
+        }else {
+            if (type=="checking"){
+                this.type = type;
+            }else{
+                throw new IllegalArgumentException("Account must be a checking or savings account");
+            }
         }
     }
 
@@ -173,5 +183,12 @@ public class BankAccount {
 
     public boolean isItFrozen(){
         return isFrozen;
+    }
+
+    public void dayPasses() {
+        if (this.type=="savings"){
+            this.balance = this.balance*1.01;
+        }
+        this.withdrawCount = 0;
     }
 }

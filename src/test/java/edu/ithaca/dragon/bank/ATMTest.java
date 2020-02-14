@@ -9,7 +9,7 @@ public class ATMTest {
     @Test
     public void credentialsTest() throws InsufficientFundsException, FrozenAccountException {
         ATM atm = new ATM();
-        BankAccount bankAccount = new BankAccount("a@b.com", "abcdef1@", 1.00);
+        BankAccount bankAccount = new BankAccount("a@b.com", "abcdef1@","checking", 1.00);
         //Passing
         assertEquals(true, atm.confirmCredentials("a@b.com", "abcdef1@", bankAccount));
         //Failure for email
@@ -23,7 +23,7 @@ public class ATMTest {
     @Test
     public void withdrawTest() throws InsufficientFundsException, FrozenAccountException {
         ATM atm=new ATM();
-        BankAccount ba=new BankAccount("a@mail.com","abcdef1@",1000);
+        BankAccount ba=new BankAccount("a@mail.com","abcdef1@","checking",1000);
         atm.withdraw(ba,500);
         assertEquals(500,atm.checkBalance(ba));
         assertThrows(IllegalArgumentException.class, () -> atm.withdraw(ba,1000));
@@ -35,7 +35,7 @@ public class ATMTest {
     @Test
     public void depositTest() throws InsufficientFundsException, FrozenAccountException {
         ATM atm=new ATM();
-        BankAccount ba=new BankAccount("a@mail.com","abcdef1@", 1000);
+        BankAccount ba=new BankAccount("a@mail.com","abcdef1@", "checking",1000);
         atm.deposit(ba,500);
         assertEquals(1500,atm.checkBalance(ba));
         assertThrows(IllegalArgumentException.class, () -> atm.deposit(ba,500.001));
@@ -46,8 +46,8 @@ public class ATMTest {
     @Test
     public void transferTest() throws InsufficientFundsException, FrozenAccountException {
         ATM atm=new ATM();
-        BankAccount ba1=new BankAccount("a@mail.com", "abcdef1@", 1000);
-        BankAccount ba2=new BankAccount("a@mail.com","abcdef1@", 1000);
+        BankAccount ba1=new BankAccount("a@mail.com", "abcdef1@", "checking",1000);
+        BankAccount ba2=new BankAccount("a@mail.com","abcdef1@", "checking",1000);
         atm.transfer(ba1,ba2,500);
         assertEquals(500,atm.checkBalance(ba1));
         assertEquals(1500,atm.checkBalance(ba2));
@@ -59,7 +59,7 @@ public class ATMTest {
     @Test
     public void transactionHistoryTest() {
         try {
-            BankAccount bankAccount = new BankAccount("a@mail.com", "abcdef1@", 1);
+            BankAccount bankAccount = new BankAccount("a@mail.com", "abcdef1@", "checking",1);
             ATM atm = new ATM();
             int headerLength = "total transactions:".length();
 

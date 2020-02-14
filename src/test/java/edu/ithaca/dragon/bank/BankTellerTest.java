@@ -13,14 +13,14 @@ public class BankTellerTest {
         ArrayList<BankAccount> bankAccounts = new ArrayList<BankAccount>(10);
         try {
             for (int i = 1; i < 11; i++)
-                bankAccounts.add( new BankAccount(i+"@mail.com", "abcdef1@", 1) );
+                bankAccounts.add( new BankAccount(i+"@mail.com","abcdef1@", "checking",  1) );
             //EQ: create a bank account
-            BankAccount bankAccount = bankTeller.createAccount("a@@b.com", "abcdef1@",100, bankAccounts);
+            BankAccount bankAccount = bankTeller.createAccount("a@@b.com", "abcdef1@","checking",100, bankAccounts);
             assertEquals("BankAccount", bankAccount.getClass().getSimpleName());
             //EQ: create a duplicate bank account
             assertThrows(
                 IllegalArgumentException.class,
-                () -> bankTeller.createAccount("1@mail.com", "abcdef1@", 100, bankAccounts)
+                () -> bankTeller.createAccount("1@mail.com", "abcdef1@", "checking",100, bankAccounts)
             );
         } catch(Exception e) {
             fail(e.getMessage());
@@ -32,7 +32,7 @@ public class BankTellerTest {
         BankTeller bankTeller = new BankTeller();
         try {
             // EQ: close a bank account
-            BankAccount bankAccount = new BankAccount("a@b.com", "abcdef1@", 100);
+            BankAccount bankAccount = new BankAccount("a@b.com", "abcdef1@", "checking",100);
             bankTeller.closeAccount(bankAccount);
             assertEquals(true, bankAccount.isClosed());
         } catch(Exception e) {
