@@ -74,7 +74,7 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
     public void transfer(String acctIdToWithdrawFrom, String acctIdToDepositTo, double amount) throws InsufficientFundsException, FrozenAccountException {
 
         if (!isAmountValid(amount)) {
-            throw new InsufficientFundsException("amount is invalid");
+            throw new IllegalArgumentException("amount is invalid");
         }
         BankAccount baWith = null;
         BankAccount baDepo = null;
