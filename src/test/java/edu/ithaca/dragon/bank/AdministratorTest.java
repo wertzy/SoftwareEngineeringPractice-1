@@ -11,13 +11,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AdministratorTest {
     @Test
     void freezeTest() throws InsufficientFundsException, FrozenAccountException {
-        administrator newAccount = new administrator("a");
-        BankAccount bankAccount = new BankAccount("a@b.com", "a",1.00);
+        administrator newAccount = new administrator("abcdef1@");
+        BankAccount bankAccount = new BankAccount("a@b.com", "abcdef1@", "checking", 1.00);
         //Basic freeze test for all methods.
         newAccount.freezeAccount(bankAccount);
         assertThrows(FrozenAccountException.class, ()-> bankAccount.withdraw(1));
         assertThrows(FrozenAccountException.class, ()->bankAccount.deposit(1));
-        BankAccount bankAccount2 = new BankAccount("a@b.com", "a",2.00);
+        BankAccount bankAccount2 = new BankAccount("a@b.com", "abcdef1@","checking",2.00);
         assertThrows(FrozenAccountException.class, ()->bankAccount.transfer(1, bankAccount2));
         assertThrows(FrozenAccountException.class, ()->bankAccount2.transfer(1, bankAccount));
         //Check that methods work after unfreezing.
@@ -35,18 +35,18 @@ public class AdministratorTest {
     @Test
     void totalTest() {
         //Standard test
-        administrator newAccount = new administrator("a");
+        administrator newAccount = new administrator("abcdef1@");
         CentralBank centralBank = new CentralBank();
-        centralBank.createAccount("a@b.com", "a", 1.00);
+        centralBank.createAccount("a@b.com", "abcdef1@", "checking",1.00);
         double checker = newAccount.calcTotalAssets(centralBank);
         assertEquals(1.00, checker);
-        centralBank.createAccount("b@a.com", "a",2.00);
+        centralBank.createAccount("b@a.com", "abcdef1@","checking",2.00);
         checker = newAccount.calcTotalAssets(centralBank);
         assertEquals(3.00, checker);
         //0 Test
         CentralBank centralBank2 = new CentralBank();
-        centralBank2.createAccount("a@b.com", "a",1.00);
-        centralBank2.createAccount("b@a.com", "a",0.00);
+        centralBank2.createAccount("a@b.com", "abcdef1@","checking",1.00);
+        centralBank2.createAccount("b@a.com", "abcdef1@","checking",0.00);
         checker = newAccount.calcTotalAssets(centralBank2);
         assertEquals(1.00, checker);
     }
@@ -54,22 +54,25 @@ public class AdministratorTest {
     @Test
     void suspActTest() throws InsufficientFundsException, FrozenAccountException {
         //Basic test
-        administrator newAccount = new administrator("a");
+        administrator newAccount = new administrator("abcdef1@");
         CentralBank centralBank = new CentralBank();
-        centralBank.createAccount("a@b.com", "a",2.00);
+        centralBank.createAccount("a@b.com", "abcdef1@","checking",2.00);
         for (int i = 0; i < 150; i++){
             centralBank.getBankAccounts().get(0).withdraw(0.01);
         }
         Collection<String> testCollect = new ArrayList<String>();
         testCollect = newAccount.findAcctIdsWithSuspiciousActivity(centralBank);
         assertEquals(false, testCollect.isEmpty());
+        centralBank.getBankAccounts().get(0).dayPasses();
+        testCollect = newAccount.findAcctIdsWithSuspiciousActivity(centralBank);
+        assertEquals(true, testCollect.isEmpty());
     }
 
     @Test
     void integrationTest() throws FrozenAccountException {
-        administrator newAccount = new administrator("a");
+        administrator newAccount = new administrator("abcdef1@");
         CentralBank centralBank = new CentralBank();
-        centralBank.createAccount("a@b.com", "a", 1.00);
+        centralBank.createAccount("a@b.com", "abcdef1@", "checking",1.00);
         centralBank.getBankAccounts().get(0).deposit(1.00);
         assertEquals(2.00, newAccount.calcTotalAssets(centralBank));
         newAccount.freezeAccount(centralBank.getBankAccounts().get(0));
@@ -81,9 +84,9 @@ public class AdministratorTest {
 
     @Test
     void systemTest() throws FrozenAccountException {
-        administrator newAccount = new administrator("a");
+        administrator newAccount = new administrator("abcdef1@");
         CentralBank centralBank = new CentralBank();
-        centralBank.createAccount("a@b.com", "a",1.00);
+        centralBank.createAccount("a@b.com", "abcdef1@","checking",1.00);
         for (int i = 0; i < 100; i++){
             if(!centralBank.getBankAccounts().get(0).isItFrozen()){
                 newAccount.freezeAccount(centralBank.getBankAccounts().get(0));
@@ -99,5 +102,35 @@ public class AdministratorTest {
         assertEquals(51.00, newAccount.calcTotalAssets(centralBank));
         Collection<String> testCollect = newAccount.findAcctIdsWithSuspiciousActivity(centralBank);
         assertEquals(true, testCollect.isEmpty());
+    }
+
+    @Test
+    void passwordCheckerTest(){
+        administrator testAdmin = new administrator("abcdef1@");
+        //Success test
+        assertTrue(testAdmin.passwordChecker("abcdef1@"));
+        //Numbers
+        assertTrue(testAdmin.passwordChecker("abcdef2@"));
+        assertTrue(testAdmin.passwordChecker("abcdef3@"));
+        assertTrue(testAdmin.passwordChecker("abcdef4@"));
+        assertTrue(testAdmin.passwordChecker("abcdef5@"));
+        assertTrue(testAdmin.passwordChecker("abcdef6@"));
+        assertTrue(testAdmin.passwordChecker("abcdef7@"));
+        assertTrue(testAdmin.passwordChecker("abcdef8@"));
+        assertTrue(testAdmin.passwordChecker("abcdef9@"));
+        assertTrue(testAdmin.passwordChecker("abcdef0@"));
+        assertFalse(testAdmin.passwordChecker("abcdef@"));
+        //Length
+        assertFalse(testAdmin.passwordChecker("def1@"));
+        assertTrue(testAdmin.passwordChecker("abcdefgh1@"));
+        //Symbols
+        assertTrue(testAdmin.passwordChecker("abcdef1#"));
+        assertTrue(testAdmin.passwordChecker("abcdef1$"));
+        assertTrue(testAdmin.passwordChecker("abcdef1&"));
+        assertTrue(testAdmin.passwordChecker("abcdef1!"));
+        assertTrue(testAdmin.passwordChecker("abcdef1+"));
+        assertTrue(testAdmin.passwordChecker("abcdef1-"));
+        assertTrue(testAdmin.passwordChecker("abcdef1~"));
+        assertFalse(testAdmin.passwordChecker("abcdef1"));
     }
 }

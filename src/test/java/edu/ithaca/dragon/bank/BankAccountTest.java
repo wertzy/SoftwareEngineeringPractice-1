@@ -10,7 +10,7 @@ class BankAccountTest {
 
     @Test
     void getBalanceTest() throws InsufficientFundsException {
-        BankAccount bankAccount = new BankAccount("a@b.com", "a", 200);
+        BankAccount bankAccount = new BankAccount("a@b.com", "abcdef1@","checking", 200);
 
         assertEquals(200, bankAccount.getBalance());
     }
@@ -18,7 +18,7 @@ class BankAccountTest {
     @Test
     void withdrawTest() throws InsufficientFundsException, FrozenAccountException {
         //Standard case withdrawal test, should withdraw succesfully
-        BankAccount bankAccount = new BankAccount("a@b.com", "a", 200);
+        BankAccount bankAccount = new BankAccount("a@b.com", "abcdef1@", "checking",200);
         bankAccount.withdraw(100);
         assertEquals(100, bankAccount.getBalance());
         assertEquals(1, bankAccount.getWithdrawCount());
@@ -31,7 +31,7 @@ class BankAccountTest {
 
 
         //withdrawing with an empty bank account, this is a border case
-        BankAccount bankAccount3 = new BankAccount("a@b.com", "a", 1);
+        BankAccount bankAccount3 = new BankAccount("a@b.com", "abcdef1@", "checking",1);
         bankAccount3.withdraw(1);
         assertThrows(IllegalArgumentException.class, () -> bankAccount3.withdraw(100));
 
@@ -60,14 +60,14 @@ class BankAccountTest {
 
     @Test
     void constructorTest() throws InsufficientFundsException, FrozenAccountException {
-        BankAccount bankAccount = new BankAccount("a@b.com", "a",  200);
+        BankAccount bankAccount = new BankAccount("a@b.com", "abcdef1@", "checking", 200);
 
         assertEquals("a@b.com", bankAccount.getEmail());
         assertEquals(200, bankAccount.getBalance());
         //check for negative bank account
-        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", "a",-100));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", "abcdef1@","checking",-100));
         //check for more than 2 decimal places
-        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", "a", 0.001));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", "abcdef1@", "checking",0.001));
     }
 
     @Test
@@ -89,7 +89,7 @@ class BankAccountTest {
 
     @Test
     void depositTest() throws InsufficientFundsException, FrozenAccountException {
-        BankAccount bankAccount = new BankAccount("a@b.com", "a", 200);
+        BankAccount bankAccount = new BankAccount("a@b.com", "abcdef1@", "checking",200);
         bankAccount.deposit(100);
         assertEquals(300, bankAccount.getBalance());
 
@@ -109,8 +109,8 @@ class BankAccountTest {
 
     @Test
     void transferTest() throws InsufficientFundsException, FrozenAccountException {
-        BankAccount bankAccount = new BankAccount("a@b.com", "a", 500);
-        BankAccount otherBankAccount = new BankAccount("a@b.com", "a", 500);
+        BankAccount bankAccount = new BankAccount("a@b.com", "abcdef1@","checking", 500);
+        BankAccount otherBankAccount = new BankAccount("a@b.com", "abcdef1@","checking", 500);
         //testing transfer between two bank accounts
         bankAccount.transfer(250, otherBankAccount);
         assertEquals(250, bankAccount.getBalance());
@@ -125,6 +125,26 @@ class BankAccountTest {
         assertThrows(IllegalArgumentException.class, () -> bankAccount.transfer(-100, otherBankAccount));
         //transferring an amount thats more than 3 decimal places
         assertThrows(IllegalArgumentException.class, () -> bankAccount.transfer(0.001, otherBankAccount));
+    }
+
+    @Test
+    void typeTest() throws InsufficientFundsException {
+        try{
+            BankAccount checkAccount = new BankAccount("a@b.com", "abcdef1@", "checking", 1.0);
+        } catch(Exception e) {
+            fail(e.getMessage());
+        }
+        try{
+            BankAccount saveAccount = new BankAccount("a@b.com", "abcdef1@", "savings", 1.0);
+        } catch(Exception e) {
+            fail(e.getMessage());
+        }
+        BankAccount checkAccount = new BankAccount("a@b.com", "abcdef1@", "checking", 1.0);
+        BankAccount saveAccount = new BankAccount("a@b.com", "abcdef1@", "savings", 1.0);
+        checkAccount.dayPasses();
+        assertEquals(1.0, checkAccount.getBalance());
+        saveAccount.dayPasses();
+        assertEquals(1.01, saveAccount.getBalance());
     }
 
 }
