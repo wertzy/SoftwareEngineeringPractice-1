@@ -25,10 +25,15 @@ public class BankAccount {
         if (isEmailValid(email)){
             this.email = email;
             this.balance = startingBalance;
-            this.password = password;
         }
         else {
             throw new IllegalArgumentException("Email address: " + email + " is invalid, cannot create account");
+        }
+        administrator tempAdmin = new administrator("abcdef1@");
+        if (tempAdmin.passwordChecker(password)){
+            this.password = password;
+        } else {
+            throw new IllegalArgumentException("Password: " + password + " is invalid, cannot create account");
         }
     }
 

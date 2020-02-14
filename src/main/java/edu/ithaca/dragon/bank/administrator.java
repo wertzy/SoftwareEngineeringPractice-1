@@ -10,8 +10,14 @@ public class administrator{
     public String password;
 
     public administrator(String password){
-        this.password = password;
+        if (passwordChecker(password)){
+            this.password = password;
+        } else {
+            throw new IllegalArgumentException("Password: " + password + " is invalid, cannot create account");
+        }
     }
+
+    public String getPassword(){ return password; }
 
     public void freezeAccount(BankAccount bankAccount) {
         bankAccount.isFrozen=true;
@@ -38,6 +44,19 @@ public class administrator{
             }
         }
         return returnable;
+    }
+
+    static boolean passwordChecker(String password){
+        if (password.length() < 6){
+            return false;
+        }
+        if (password.indexOf('@') == -1 && password.indexOf('#') == -1 && password.indexOf('$') == -1 && password.indexOf('&') == -1 && password.indexOf('!') == -1 && password.indexOf('+') == -1 && password.indexOf('-') == -1 && password.indexOf('~') == -1){
+            return false;
+        }
+        if (password.indexOf('0') == -1 && password.indexOf('1') == -1 && password.indexOf('2') == -1 && password.indexOf('3') == -1 && password.indexOf('4') == -1 && password.indexOf('5') == -1 && password.indexOf('6') == -1 && password.indexOf('7') == -1 && password.indexOf('8') == -1 && password.indexOf('9') == -1){
+            return false;
+        }
+        return true;
     }
 
 }
