@@ -18,5 +18,7 @@ public class BankTeller {
    }
 
    public void withdraw(BankAccount bankAccount, double amount)
-           throws IllegalArgumentException, InsufficientFundsException, FrozenAccountException {  }
+       throws IllegalArgumentException, InsufficientFundsException, FrozenAccountException {
+        bankAccount.withdraw(amount);
+   }
 }
