@@ -44,7 +44,7 @@ public class BankTellerTest {
     public void withdrawTest() {
         BankTeller bankTeller = new BankTeller();
         try {
-            BankAccount bankAccount = new BankAccount("a@b.com", "a", 100);
+            BankAccount bankAccount = new BankAccount("a@b.com", "abcdef1@", "savings", 100);
             // EQ: bank account is withdrawn from (calls bankAccount.withdraw)
             bankTeller.withdraw(bankAccount, 1);
             assertEquals(99, bankAccount.getBalance());
@@ -57,7 +57,7 @@ public class BankTellerTest {
     public void depositTest() {
         BankTeller bankTeller = new BankTeller();
         try {
-            BankAccount bankAccount = new BankAccount("a@b.com", "a", 100);
+            BankAccount bankAccount = new BankAccount("a@b.com", "abcdef1@", "savings", 100);
             // EQ: bank account is deposited to (calls bankAccount.deposit)
             bankTeller.deposit(bankAccount, 1);
             assertEquals(101, bankAccount.getBalance());
