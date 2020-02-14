@@ -84,6 +84,8 @@ public class BankAccount {
 
     public ArrayList<Double> getWithdrawHistory() { return withdrawHistory; }
 
+    public String getType() { return type; }
+
     /**
      * @post reduces the balance by amount if amount is non-negative and smaller than balance
      */
