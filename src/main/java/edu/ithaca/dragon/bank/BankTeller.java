@@ -8,7 +8,8 @@ public class BankTeller {
             throws InsufficientFundsException, IllegalArgumentException, FrozenAccountException {
 
         for (BankAccount ba : bankAccounts) {
-            if (ba.getEmail().equals(acctId)) throw new IllegalArgumentException("Duplicate ID found.");
+            if (ba.getEmail().equals(acctId))
+                throw new IllegalArgumentException("Only one checking and savings account per customer is allowed");
         }
         return new BankAccount(acctId, password, type, startingBalance);
    }
