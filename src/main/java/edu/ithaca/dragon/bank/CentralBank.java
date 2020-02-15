@@ -3,6 +3,7 @@ package edu.ithaca.dragon.bank;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
 
@@ -144,24 +145,37 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
     //------------------ AdminAPI methods -------------------------//
 
     public double checkTotalAssets() {
-        return 0;
+        return 0.0;
     }
 
     @Override
     public double calcTotalAssets() {
-        return 0;
+        double returnValue = 0;
+        for (int i = 0; i < getbankAccountsLength(); i++){
+            returnValue = returnValue + getBankAccounts().get(i).getBalance();
+        }
+        return returnValue;
     }
 
-    public Collection<String> findAcctIdsWithSuspiciousActivity() {
-        return null;
+    public Collection<String> findAcctIdsWithSuspiciousActivity() throws FrozenAccountException {
+        List<String> returnable = new ArrayList<String>();
+        for (int i = 0; i < getbankAccountsLength(); i++){
+            int isItTooHigh = getBankAccounts().get(i).getWithdrawCount();
+            if (isItTooHigh > 100){
+                returnable.add(getBankAccounts().get(i).getEmail());
+            }
+        }
+        return returnable;
     }
 
     public void freezeAccount(String acctId) {
-
+        administrator tempAdmin = new administrator("abcdef1@");
+        tempAdmin.freezeAccount(acctId);
     }
 
     public void unfreezeAcct(String acctId) {
-
+        administrator tempAdmin = new administrator("abcdef1@");
+        tempAdmin.freezeAccount(acctId);
     }
 
 }
