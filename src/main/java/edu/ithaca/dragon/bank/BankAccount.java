@@ -19,11 +19,7 @@ public class BankAccount {
     /**
      * @throws IllegalArgumentException if email is invalid
      */
-<<<<<<< Updated upstream
     public BankAccount(String email, String password, String type, double startingBalance) throws InsufficientFundsException {
-=======
-    public BankAccount(String email, String password, double startingBalance) {
->>>>>>> Stashed changes
         if(isAmountValid(startingBalance)==false){
             throw new IllegalArgumentException("amount is invalid");
         }
