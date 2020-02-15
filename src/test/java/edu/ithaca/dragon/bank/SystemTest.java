@@ -10,8 +10,8 @@ public class SystemTest {
     @Test
     public void systemTest() throws FrozenAccountException, InsufficientFundsException {
         CentralBank centralBank = new CentralBank();
-        centralBank.createAccount("a@mail.com", "a", 50000);
-        centralBank.createAccount("b@mail.com", "ab", 50000);
+        centralBank.createAccount("a@mail.com", "abc123!", "savings", 50000);
+        centralBank.createAccount("b@mail.com", "abc123!",  "savings", 50000);
         //check bankaccount length and there is no history in the bank accounts
         assertEquals(2, centralBank.getbankAccountsLength());
         assertEquals(true, centralBank.transactionHistory("c@mail.com").equals("No such account"));
