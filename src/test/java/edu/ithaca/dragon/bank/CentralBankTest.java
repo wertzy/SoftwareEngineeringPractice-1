@@ -78,4 +78,17 @@ public class CentralBankTest {
         String history = centralBank.transactionHistory("1@mail.com");
         assertEquals(true, !history.equals("No such account") && history.length() > 0);
     }
+
+    @Test public void findAccountTest() {
+        CentralBank centralBank = new CentralBank();
+
+        for (int i = 1; i < 10; i++) centralBank.createAccount(i+"@mail.com", "abcdef1@","checking", 1);
+
+        // EQ: Non-existent account
+        assertNull(centralBank.findAccount("a@b.com"));
+
+        // EQ: Existing account
+        String history = centralBank.transactionHistory("1@mail.com");
+        assertNotNull(centralBank.findAccount("1@mail.com"));
+    }
 }
