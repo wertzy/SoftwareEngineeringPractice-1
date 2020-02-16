@@ -23,9 +23,7 @@ public class administrator{
         bankAccount.isFrozen=true;
     }
 
-    public void unfreezeAcct(BankAccount bankAccount) {
-        bankAccount.isFrozen=false;
-    }
+    public void unfreezeAcct(BankAccount bankAccount) { bankAccount.isFrozen=false; }
 
     public double calcTotalAssets(CentralBank centralBank) {
         double returnValue = 0;

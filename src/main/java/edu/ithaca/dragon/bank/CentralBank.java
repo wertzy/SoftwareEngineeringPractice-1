@@ -152,12 +152,12 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
 
     public void freezeAccount(String acctId) {
         administrator tempAdmin = new administrator("abcdef1@");
-        tempAdmin.freezeAccount(acctId);
+        tempAdmin.freezeAccount(findAccount(acctId));
     }
 
     public void unfreezeAcct(String acctId) {
         administrator tempAdmin = new administrator("abcdef1@");
-        tempAdmin.freezeAccount(acctId);
+        tempAdmin.unfreezeAcct(findAccount(acctId));
     }
 
 }

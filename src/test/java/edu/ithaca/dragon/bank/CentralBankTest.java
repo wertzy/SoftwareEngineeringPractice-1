@@ -91,4 +91,27 @@ public class CentralBankTest {
         String history = centralBank.transactionHistory("1@mail.com");
         assertNotNull(centralBank.findAccount("1@mail.com"));
     }
+
+    @Test
+    void freezeTest() throws InsufficientFundsException, FrozenAccountException {
+        CentralBank newBank = new CentralBank();
+        newBank.createAccount("a@b.com", "abcdef1@", "checking", 1.00);
+        //Basic freeze test for all methods.
+        newBank.freezeAccount("a@b.com");
+        assertThrows(FrozenAccountException.class, ()-> newBank.getBankAccounts().get(0).withdraw(1));
+        assertThrows(FrozenAccountException.class, ()-> newBank.getBankAccounts().get(0).deposit(1));
+        BankAccount bankAccount2 = new BankAccount("b@a.com", "abcdef1@","checking",2.00);
+        assertThrows(FrozenAccountException.class, ()-> newBank.getBankAccounts().get(0).transfer(1, bankAccount2));
+        assertThrows(FrozenAccountException.class, ()->bankAccount2.transfer(1,  newBank.getBankAccounts().get(0)));
+        //Check that methods work after unfreezing.
+        newBank.unfreezeAcct("a@b.com");
+        newBank.getBankAccounts().get(0).withdraw(1);
+        assertEquals(0,  newBank.getBankAccounts().get(0).getBalance());
+        newBank.getBankAccounts().get(0).deposit(2);
+        assertEquals(2,  newBank.getBankAccounts().get(0).getBalance());
+        newBank.getBankAccounts().get(0).transfer(2, bankAccount2);
+        assertEquals(0,  newBank.getBankAccounts().get(0).getBalance());
+        bankAccount2.transfer(2,  newBank.getBankAccounts().get(0));
+        assertEquals(2,  newBank.getBankAccounts().get(0).getBalance());
+    }
 }
