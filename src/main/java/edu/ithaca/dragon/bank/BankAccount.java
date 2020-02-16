@@ -56,13 +56,8 @@ public class BankAccount {
         }
     }
 
-    public String getEmail() throws FrozenAccountException {
-        if(!isFrozen) {
+    public String getEmail(){
             return email;
-        }
-        else{
-            throw new FrozenAccountException("account is frozen");
-        }
     }
 
     public String getPassword() throws FrozenAccountException {

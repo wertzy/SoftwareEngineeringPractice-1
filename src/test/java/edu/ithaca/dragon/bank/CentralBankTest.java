@@ -2,6 +2,9 @@ package edu.ithaca.dragon.bank;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CentralBankTest {
@@ -98,20 +101,54 @@ public class CentralBankTest {
         newBank.createAccount("a@b.com", "abcdef1@", "checking", 1.00);
         //Basic freeze test for all methods.
         newBank.freezeAccount("a@b.com");
-        assertThrows(FrozenAccountException.class, ()-> newBank.getBankAccounts().get(0).withdraw(1));
-        assertThrows(FrozenAccountException.class, ()-> newBank.getBankAccounts().get(0).deposit(1));
+        assertThrows(FrozenAccountException.class, ()-> newBank.findAccount("a@b.com").withdraw(1));
+        assertThrows(FrozenAccountException.class, ()-> newBank.findAccount("a@b.com").deposit(1));
         BankAccount bankAccount2 = new BankAccount("b@a.com", "abcdef1@","checking",2.00);
-        assertThrows(FrozenAccountException.class, ()-> newBank.getBankAccounts().get(0).transfer(1, bankAccount2));
-        assertThrows(FrozenAccountException.class, ()->bankAccount2.transfer(1,  newBank.getBankAccounts().get(0)));
+        assertThrows(FrozenAccountException.class, ()-> newBank.findAccount("a@b.com").transfer(1, bankAccount2));
+        assertThrows(FrozenAccountException.class, ()->bankAccount2.transfer(1,  newBank.findAccount("a@b.com")));
         //Check that methods work after unfreezing.
         newBank.unfreezeAcct("a@b.com");
-        newBank.getBankAccounts().get(0).withdraw(1);
-        assertEquals(0,  newBank.getBankAccounts().get(0).getBalance());
-        newBank.getBankAccounts().get(0).deposit(2);
-        assertEquals(2,  newBank.getBankAccounts().get(0).getBalance());
-        newBank.getBankAccounts().get(0).transfer(2, bankAccount2);
-        assertEquals(0,  newBank.getBankAccounts().get(0).getBalance());
-        bankAccount2.transfer(2,  newBank.getBankAccounts().get(0));
-        assertEquals(2,  newBank.getBankAccounts().get(0).getBalance());
+        newBank.findAccount("a@b.com").withdraw(1);
+        assertEquals(0,  newBank.findAccount("a@b.com").getBalance());
+        newBank.findAccount("a@b.com").deposit(2);
+        assertEquals(2,  newBank.findAccount("a@b.com").getBalance());
+        newBank.findAccount("a@b.com").transfer(2, bankAccount2);
+        assertEquals(0,  newBank.findAccount("a@b.com").getBalance());
+        bankAccount2.transfer(2,  newBank.findAccount("a@b.com"));
+        assertEquals(2,  newBank.findAccount("a@b.com").getBalance());
+    }
+
+    @Test
+    void suspActTest() throws InsufficientFundsException, FrozenAccountException {
+        //Basic test
+        CentralBank centralBank = new CentralBank();
+        centralBank.createAccount("a@b.com", "abcdef1@","checking",2.00);
+        for (int i = 0; i < 150; i++){
+            centralBank.getBankAccounts().get(0).withdraw(0.01);
+        }
+        Collection<String> testCollect = new ArrayList<String>();
+        testCollect = centralBank.findAcctIdsWithSuspiciousActivity();
+        assertEquals(false, testCollect.isEmpty());
+        centralBank.getBankAccounts().get(0).dayPasses();
+        testCollect = centralBank.findAcctIdsWithSuspiciousActivity();
+        assertEquals(true, testCollect.isEmpty());
+    }
+
+    @Test
+    void totalTest() {
+        //Standard test
+        CentralBank centralBank = new CentralBank();
+        centralBank.createAccount("a@b.com", "abcdef1@", "checking",1.00);
+        double checker = centralBank.calcTotalAssets();
+        assertEquals(1.00, checker);
+        centralBank.createAccount("b@a.com", "abcdef1@","checking",2.00);
+        checker = centralBank.calcTotalAssets();
+        assertEquals(3.00, checker);
+        //0 Test
+        CentralBank centralBank2 = new CentralBank();
+        centralBank2.createAccount("a@b.com", "abcdef1@","checking",1.00);
+        centralBank2.createAccount("b@a.com", "abcdef1@","checking",0.00);
+        checker = centralBank2.calcTotalAssets();
+        assertEquals(1.00, checker);
     }
 }
