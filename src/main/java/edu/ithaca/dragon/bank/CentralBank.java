@@ -71,59 +71,31 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
         if (!isAmountValid(amount)) {
             throw new InsufficientFundsException("amount is invalid");
         }
-            for (BankAccount ba : bankAccounts) {
-                if (ba.getEmail().equals(acctId)){
-                    atm.withdraw(ba,amount);
-                }
-            }
+        BankAccount bankAccount = findAccount(acctId);
+        if (bankAccount != null) atm.withdraw(bankAccount, amount);
     }
 
     public void deposit(String acctId, double amount) throws FrozenAccountException {
-        for (BankAccount ba : bankAccounts) {
-            if (ba.getEmail().equals(acctId)){
-                atm.deposit(ba,amount);
-            }
-        }
-
+        BankAccount bankAccount = findAccount(acctId);
+        if (bankAccount != null) atm.deposit(bankAccount, amount);
     }
 
     public void transfer(String acctIdToWithdrawFrom, String acctIdToDepositTo, double amount) throws InsufficientFundsException, FrozenAccountException {
-
         if (!isAmountValid(amount)) {
             throw new IllegalArgumentException("amount is invalid");
         }
-        BankAccount baWith = null;
-        BankAccount baDepo = null;
-        for (BankAccount ba1 : bankAccounts) {
-            if (ba1.getEmail().equals(acctIdToWithdrawFrom)) {
-                baWith=ba1;
-                break;
-            }
-        }
-        for (BankAccount ba2 : bankAccounts) {
-            if (ba2.getEmail().equals(acctIdToDepositTo)) {
-                baDepo=ba2;
-                break;
-            }
-        }
-        atm.transfer(baWith,baDepo,amount);
+        BankAccount baWith = findAccount(acctIdToWithdrawFrom);
+        BankAccount baDepo = findAccount(acctIdToDepositTo);
 
-
+        if (baWith != null && baDepo != null) {
+            atm.transfer(baWith,baDepo,amount);
+        }
     }
 
     public String transactionHistory(String acctId) {
-        BankAccount bankAccount = null;
+        BankAccount bankAccount = findAccount(acctId);
         String history = "";
-        for (BankAccount ba : bankAccounts) {
-            try {
-                if (ba.getEmail().equals(acctId)) {
-                    bankAccount = ba;
-                    break;
-                }
-            } catch (Exception e) {
-                System.out.println(e.getLocalizedMessage());
-            }
-        }
+
         if (bankAccount != null) history = atm.transactionHistory(bankAccount);
         else history = "No such account";
         return history;
@@ -142,13 +114,7 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
     }
 
     public void closeAccount(String acctId) throws FrozenAccountException {
-        BankAccount bankAccount = null;
-        for (BankAccount ba : bankAccounts) {
-            if (ba.getEmail().equals(acctId)) {
-                bankAccount = ba;
-                break;
-            }
-        }
+        BankAccount bankAccount = findAccount(acctId);
         if (bankAccount != null) {
             bankTeller.closeAccount(bankAccount);
             bankAccounts.remove(bankAccount);
