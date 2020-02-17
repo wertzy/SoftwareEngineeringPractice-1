@@ -38,7 +38,6 @@ public class ATMUI {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter a username:");
         String input = scan.nextLine();
-        BankAccount ba2=CentralBank.findAccount(input);
-        return ba2;
+        return null;
     }
 }
