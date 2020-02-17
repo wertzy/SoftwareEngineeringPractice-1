@@ -93,6 +93,10 @@ public class CentralBankTest {
         // EQ: Existing account
         String history = centralBank.transactionHistory("1@mail.com");
         assertNotNull(centralBank.findAccount("1@mail.com"));
+
+        //EQ: Customer with two accounts
+        centralBank.createAccount("1@mail.com", "abcdef1@", "savings", 1);
+        assertEquals("savings", centralBank.findAccount("1@mail.com", "savings"));
     }
 
     @Test

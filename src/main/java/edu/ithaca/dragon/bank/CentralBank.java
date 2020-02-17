@@ -36,6 +36,10 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
         return bankAccount;
     }
 
+    public BankAccount findAccount(String acctId, String type) {
+        return null;
+    }
+
     //----------------- BasicAPI methods -------------------------//
 
 
