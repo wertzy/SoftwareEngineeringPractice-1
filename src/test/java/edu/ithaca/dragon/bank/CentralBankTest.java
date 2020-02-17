@@ -96,7 +96,7 @@ public class CentralBankTest {
 
         //EQ: Customer with two accounts
         centralBank.createAccount("1@mail.com", "abcdef1@", "savings", 1);
-        assertEquals("savings", centralBank.findAccount("1@mail.com", "savings"));
+        assertEquals("savings", centralBank.findAccount("1@mail.com", "savings").getType());
     }
 
     @Test
