@@ -6,3 +6,11 @@ Desmond Test Script:
 Notes:
 -Start bank account with 500, then withdraw 100, deposit 100, transfer 100
 -This should lead us to having a bank account with 400 or -100 amount of money
+
+Scott Test Script:
+1. Withdraw successfully by entering a valid amount, bringing the user back to the main display.
+2. Withdraw unsuccessfully by entering an invalid amount, displaying an error message
+3. Deposit successfully by entering a valid amount, bringing the user back to the main display.
+4. Deposit unsuccessfully by entering an invalid amount, displaying an error message.
+5. During error message display, cancel the current current action (withdraw/deposit), returning the user back to the main display.
+6. During error message display, revert back to the current action (withdraw/deposit), returning the user back for an amount to enter.
