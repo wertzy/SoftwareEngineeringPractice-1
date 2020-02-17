@@ -36,6 +36,22 @@ public class CentralBank implements AdvancedAPI, AdminAPI, BasicAPI {
         return bankAccount;
     }
 
+    public BankAccount findAccount(String acctId, String type) {
+        BankAccount bankAccount = null;
+        for (BankAccount ba : bankAccounts) {
+            try {
+                if (ba.getEmail().equals(acctId) && ba.getType().equals(type)) {
+                    bankAccount = ba;
+                    break;
+                }
+            } catch(Exception e) {
+                System.out.println(e.getLocalizedMessage());
+                return null;
+            }
+        }
+        return bankAccount;
+    }
+
     //----------------- BasicAPI methods -------------------------//
 
 
