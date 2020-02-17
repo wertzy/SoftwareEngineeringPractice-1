@@ -3,6 +3,10 @@ import java.util.Scanner;
 
 public class ATMUI {
 
+    public ATMUI(BasicAPI testBaseAPI) {
+
+    }
+
     public void displayOptions(BankAccount ba) throws FrozenAccountException, InsufficientFundsException {
         System.out.println("Welcome User");
         System.out.println("Your current balance is");
