@@ -155,4 +155,20 @@ public class CentralBankTest {
         checker = centralBank2.calcTotalAssets();
         assertEquals(1.00, checker);
     }
+
+    public static CentralBank getTestObject() {
+        CentralBank centralBank = new CentralBank();
+        // create accounts only with savings
+        for(int i = 1; i < 11; i++)
+            centralBank.createAccount(i+"@mail.com", "abcdef1@", "savings", i);
+        // create accounts only with checking
+        for(int i = 11; i < 21; i++)
+            centralBank.createAccount(i+"@mail.com", "abcdef1@", "checking", i);
+        // create accounts of both
+        for(int i = 22; i < 32; i++) {
+            centralBank.createAccount(i+"@mail.com", "abcdef1@", "savings", i);
+            centralBank.createAccount(i+"@mail.com", "abcdef1@", "checking", i);
+        }
+        return centralBank;
+    }
 }
