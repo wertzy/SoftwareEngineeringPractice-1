@@ -7,6 +7,13 @@ Notes:
 -Start bank account with 500, then withdraw 100, deposit 100, transfer 100
 -This should lead us to having a bank account with 400 or -100 amount of money
 
+Peter Test Script:
+1. Login with a invalid username.
+2. Login with a valid username and cancel.
+3. Login with a valid username and an invalid password.
+4. Login with a valid username and password.
+5. Attempt to login with a frozen account, then from the error screen login to a unfrozen account.
+
 Scott Test Script:
 1. Withdraw successfully by entering a valid amount, bringing the user back to the main display.
 2. Withdraw unsuccessfully by entering an invalid amount, displaying an error message

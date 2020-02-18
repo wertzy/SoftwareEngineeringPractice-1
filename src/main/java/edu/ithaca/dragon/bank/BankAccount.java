@@ -13,6 +13,7 @@ public class BankAccount {
     public boolean isFrozen;
     private boolean closed = false;
     private int withdrawCount = 0;
+    private int errorCode = 0;
     private ArrayList<Double> depositHistory = new ArrayList<Double>();
     private ArrayList<Double> withdrawHistory = new ArrayList<Double>();
 
@@ -81,11 +82,16 @@ public class BankAccount {
 
     public String getType() { return type; }
 
+    public int getErrorCode() { return errorCode; }
+
+    public void resetErrorCode() { this.errorCode = 0; }
+
     /**
      * @post reduces the balance by amount if amount is non-negative and smaller than balance
      */
     public void withdraw (double amount) throws IllegalArgumentException, InsufficientFundsException, FrozenAccountException {
         if(isAmountValid(amount)==false){
+            errorCode = 1;
             throw new IllegalArgumentException("amount is invalid");
         }
         if(balance ==0 ){
@@ -152,6 +158,7 @@ public class BankAccount {
      */
     public void deposit(double amount) throws FrozenAccountException {
         if(isAmountValid(amount)==false){
+            errorCode = 2;
             throw new IllegalArgumentException("amount is invalid");
         }
         if(isFrozen) {

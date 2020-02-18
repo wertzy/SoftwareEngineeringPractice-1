@@ -13,9 +13,6 @@ public class ATMUITest {
         //Peter's test
         testBank.freezeAccount("5@mail.com");
         testUI.login(testBank);
-
-
-
     }
 }
 
