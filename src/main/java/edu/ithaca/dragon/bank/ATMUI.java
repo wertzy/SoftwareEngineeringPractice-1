@@ -20,7 +20,7 @@ public class ATMUI {
         System.out.println("---------------------------------------\n");
     }
 
-    public void run(BankAccount ba) {
+    public void run(BankAccount ba,CentralBank cb) {
         int num = 0;
         while (num != 4) {
             try {
@@ -37,8 +37,12 @@ public class ATMUI {
                         ba.deposit(100);
                         break;
                     case 3:
-                        BankAccount inputBA=ATMUI.inputBankAccount();
-                        ba.transfer(100,inputBA);
+                            BankAccount inputBA = ATMUI.inputBankAccount(cb);
+                            if (inputBA==null){
+                                System.out.println("Error: Bank Account not found");
+                                break;
+                    }
+                            ba.transfer(100, inputBA);
                         break;
                     case 4:
                         break;
@@ -52,11 +56,18 @@ public class ATMUI {
         }
     }
 
-    private static BankAccount inputBankAccount() {
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Enter a username:");
-        String input = scan.nextLine();
-        return null;
+    private static BankAccount inputBankAccount(CentralBank cb) {
+        try {
+            Scanner scan = new Scanner(System.in);
+            System.out.println("Enter a username:");
+            String input = scan.nextLine();
+            BankAccount transferBA = cb.findAccount(input);
+            return transferBA;
+        }
+        catch (Exception e){
+            System.out.println("Bank Account is not found");
+            return null;
+        }
     }
 
     private double promptAmount(String action) {
