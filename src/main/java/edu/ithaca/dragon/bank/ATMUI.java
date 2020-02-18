@@ -20,6 +20,8 @@ public class ATMUI {
         System.out.println("---------------------------------------\n");
     }
 
+
+
     private int displayErrorAndPrompt(String error, int errorCode) {
         System.out.println("---------------------------------------\n");
         System.out.println(error);
@@ -40,8 +42,9 @@ public class ATMUI {
         return 0;
     }
 
-    public void run(BankAccount ba,CentralBank cb) {
+    public void run(CentralBank centralBank) throws FrozenAccountException {
         int num = 0;
+        BankAccount ba = login(centralBank);
         while (num != 4) {
             try {
                 if (num == 0) {
@@ -59,7 +62,7 @@ public class ATMUI {
                         ba.deposit( promptAmount("deposit") );
                         break;
                     case 3:
-                            BankAccount inputBA = ATMUI.inputBankAccount(cb);
+                            BankAccount inputBA = ATMUI.inputBankAccount(centralBank);
                             if (inputBA==null){
                                 System.out.println("Error: Bank Account not found");
                                 break;
@@ -78,6 +81,7 @@ public class ATMUI {
                 ba.resetErrorCode();
             }
         }
+        run(centralBank);
     }
 
     private static BankAccount inputBankAccount(CentralBank cb) {
@@ -100,4 +104,49 @@ public class ATMUI {
         return scan.nextDouble();
     }
 
+
+    public BankAccount login(CentralBank centralBank) throws FrozenAccountException {
+        Scanner scan = new Scanner(System.in);
+        BankAccount accountInQuestion = null;
+        boolean loggedOut = true;
+        while (loggedOut) {
+            boolean checkingName = true;
+            boolean enteringPassword = true;
+            while (checkingName) {
+                System.out.println("Enter a username:");
+                String input = scan.nextLine();
+                System.out.println(input + "... ");
+                accountInQuestion = centralBank.findAccount(input);
+                if (accountInQuestion == null) {
+                    System.out.println("That username is not in use. ");
+                } else {
+                    checkingName = false;
+                }
+
+
+                if (accountInQuestion.isItFrozen()) {
+                    System.out.println("It looks like that account has been frozen by an administrator. ");
+                    System.out.println("If you would like to enquire further, contact customer service at 1-888-555-1212.");
+                    checkingName = true;
+                }
+            }
+            while (enteringPassword==true) {
+                System.out.println("Enter a password or type 'cancel' to return to a previous state: ");
+                String input2 = scan.nextLine();
+                System.out.println(input2 + "... ");
+                if (input2.equals("cancel")) {
+                    enteringPassword = false;
+                }else {
+                    if (input2.equals(accountInQuestion.getPassword())) {
+                        System.out.println("Correct! Welcome to your account. ");
+                        loggedOut = false;
+                        enteringPassword = false;
+                    } else {
+                        System.out.println("Incorrect password. ");
+                    }
+                }
+            }
+        }
+        return accountInQuestion;
+    }
 }
