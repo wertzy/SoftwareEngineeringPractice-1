@@ -125,11 +125,7 @@ public class ATMUI {
                 }
 
 
-                if (accountInQuestion.isItFrozen()) {
-                    System.out.println("It looks like that account has been frozen by an administrator. ");
-                    System.out.println("If you would like to enquire further, contact customer service at 1-888-555-1212.");
-                    checkingName = true;
-                }
+
             }
             while (enteringPassword==true) {
                 System.out.println("Enter a password or type 'cancel' to return to a previous state: ");
@@ -138,16 +134,24 @@ public class ATMUI {
                 if (input2.equals("cancel")) {
                     enteringPassword = false;
                 }else {
+
                     if (input2.equals(accountInQuestion.getPassword())) {
-                        System.out.println("Correct! Welcome to your account. ");
                         loggedOut = false;
                         enteringPassword = false;
                     } else {
                         System.out.println("Incorrect password. ");
                     }
+                    if (accountInQuestion.isItFrozen()) {
+                        System.out.println("It looks like that account has been frozen by an administrator. ");
+                        System.out.println("If you would like to enquire further, contact customer service at 1-888-555-1212.");
+                        checkingName = true;
+                        enteringPassword = false;
+                        loggedOut = true;
+                    }
                 }
             }
         }
+        System.out.println("Correct! Welcome to your account. ");
         return accountInQuestion;
     }
 }

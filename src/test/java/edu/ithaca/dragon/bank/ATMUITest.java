@@ -7,12 +7,12 @@ public class ATMUITest {
         ATMUI testUI=new ATMUI(testBaseAPI);
 
         //Desmond's Test
-        BankAccount tb=new BankAccount("a@mail.com","abcdef@1","checking",500);
-        testUI.run(testBank);
+        //BankAccount tb=new BankAccount("a@mail.com","abcdef@1","checking",500);
+        //testUI.run(testBank);
 
         //Peter's test
         testBank.freezeAccount("5@mail.com");
-        testUI.login(testBank);
+        testUI.run(testBank);
     }
 }
 

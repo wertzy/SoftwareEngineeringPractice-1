@@ -61,13 +61,8 @@ public class BankAccount {
             return email;
     }
 
-    public String getPassword() throws FrozenAccountException {
-        if(!isFrozen) {
+    public String getPassword(){
             return password;
-        }
-        else{
-            throw new FrozenAccountException("account is frozen");
-        }
     }
 
     public void setClosed(boolean bool) { closed = bool; }
