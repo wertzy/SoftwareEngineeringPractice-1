@@ -69,7 +69,7 @@ public class ATMUI {
             while (checkingName) {
                 System.out.println("Enter a username:");
                 String input = scan.nextLine();
-                System.out.println(input+"... ");
+                System.out.println(input + "... ");
                 accountInQuestion = centralBank.findAccount(input);
                 if (accountInQuestion == null) {
                     System.out.println("That username is not in use. ");
@@ -77,22 +77,27 @@ public class ATMUI {
                     checkingName = false;
                 }
 
-            }
-            if(accountInQuestion.isItFrozen()){
-                System.out.println("It looks like that account has been frozen by an administrator. ");
-                System.out.println("If you would like to enquire further, contact customer service at 1-888-555-1212.");
-                checkingName = true;
-            }
-            while (enteringPassword) {
-                System.out.println("Enter a password or type 'cancel' to return to a previous state: ");
-                String input2 = scan.nextLine();
-                if(input2 == "cancel"){
-                    enteringPassword = false;
+
+                if (accountInQuestion.isItFrozen()) {
+                    System.out.println("It looks like that account has been frozen by an administrator. ");
+                    System.out.println("If you would like to enquire further, contact customer service at 1-888-555-1212.");
                     checkingName = true;
                 }
-                if (input2 == accountInQuestion.getPassword()){
-                    loggedOut = false;
-                    run(accountInQuestion);
+            }
+            while (enteringPassword==true) {
+                System.out.println("Enter a password or type 'cancel' to return to a previous state: ");
+                String input2 = scan.nextLine();
+                System.out.println(input2 + "... ");
+                if (input2.equals("cancel")) {
+                    enteringPassword = false;
+                }else {
+                    if (input2.equals(accountInQuestion.getPassword())) {
+                        System.out.println("Correct! Welcome to your account. ");
+                        loggedOut = false;
+                        run(accountInQuestion);
+                    } else {
+                        System.out.println("Incorrect password. ");
+                    }
                 }
             }
         }
