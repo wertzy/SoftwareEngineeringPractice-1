@@ -172,6 +172,7 @@ public class BankAccount {
      */
     public void transfer(double amount,BankAccount otherBankAccount) throws FrozenAccountException {
         if(isAmountValid(amount)==false){
+            errorCode = 3;
             throw new IllegalArgumentException("amount is invalid");
         }
         if(balance-amount<0){

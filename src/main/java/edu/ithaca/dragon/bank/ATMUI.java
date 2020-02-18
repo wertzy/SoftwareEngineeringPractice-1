@@ -32,6 +32,7 @@ public class ATMUI {
 
         if (errorCode == 1) action = "withdraw";
         else if (errorCode == 2) action = "deposit";
+        else if (errorCode == 3) action = "transfer";
         if (action.length() > 0) {
             System.out.println(action+" again? [y/n]");
             String choice = scan.nextLine().toLowerCase();
