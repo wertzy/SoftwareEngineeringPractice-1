@@ -3,6 +3,8 @@ Desmond Test Script:
 2. Input option with withdrawing money
 3. Check to see if the money has been withdrew and added to the account
 4. Repeat steps 1-3 for deposit and transfer methods
+5. Go through withdraw,deposit,and transfer methods but put in a negative amount to see if it rejects the function
+6. Go through transfer method but input an invalid email account to see if it rejects the email.
 Notes:
 -Start bank account with 500, then withdraw 100, deposit 100, transfer 100
 -This should lead us to having a bank account with 400 or -100 amount of money
