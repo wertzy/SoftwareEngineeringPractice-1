@@ -59,6 +59,7 @@ public class ATMUI {
         return null;
     }
 
+
     public void login(CentralBank centralBank) throws FrozenAccountException {
         Scanner scan = new Scanner(System.in);
         BankAccount accountInQuestion = null;
