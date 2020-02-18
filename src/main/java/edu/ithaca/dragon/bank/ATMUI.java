@@ -56,7 +56,11 @@ public class ATMUI {
                         ba.withdraw( promptAmount("withdraw") );
                         break;
                     case 2:
+<<<<<<< Updated upstream
                         ba.deposit( promptAmount("deposit") );
+=======
+                        ba.deposit( promptAmount("withdraw"));
+>>>>>>> Stashed changes
                         break;
                     case 3:
                             BankAccount inputBA = ATMUI.inputBankAccount(cb);
@@ -64,7 +68,7 @@ public class ATMUI {
                                 System.out.println("Error: Bank Account not found");
                                 break;
                     }
-                            ba.transfer(100, inputBA);
+                            ba.transfer(promptAmount("transfer") ,inputBA);
                         break;
                     case 4:
                         break;
