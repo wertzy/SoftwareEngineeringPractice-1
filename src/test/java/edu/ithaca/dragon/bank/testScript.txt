@@ -19,5 +19,7 @@ Scott Test Script:
 2. Withdraw unsuccessfully by entering an invalid amount, displaying an error message
 3. Deposit successfully by entering a valid amount, bringing the user back to the main display.
 4. Deposit unsuccessfully by entering an invalid amount, displaying an error message.
-5. During error message display, cancel the current current action (withdraw/deposit), returning the user back to the main display.
-6. During error message display, revert back to the current action (withdraw/deposit), returning the user back for an amount to enter.
+5. Transfer successfully by entering a valid amount, bringing the user back to the main display.
+6. Transfer unsuccessfully by entering an invalid amount, displaying an error message
+7. During error message display, cancel the current current action (withdraw/deposit/transfer), returning the user back to the main display.
+8. During error message display, revert back to the current action (withdraw/deposit/transfer), returning the user back for an amount to enter.
