@@ -58,4 +58,43 @@ public class ATMUI {
         String input = scan.nextLine();
         return null;
     }
+
+    public void login(CentralBank centralBank) throws FrozenAccountException {
+        Scanner scan = new Scanner(System.in);
+        BankAccount accountInQuestion = null;
+        boolean loggedOut = true;
+        while (loggedOut) {
+            boolean checkingName = true;
+            boolean enteringPassword = true;
+            while (checkingName) {
+                System.out.println("Enter a username:");
+                String input = scan.nextLine();
+                System.out.println(input+"... ");
+                accountInQuestion = centralBank.findAccount(input);
+                if (accountInQuestion == null) {
+                    System.out.println("That username is not in use. ");
+                } else {
+                    checkingName = false;
+                }
+
+            }
+            if(accountInQuestion.isItFrozen()){
+                System.out.println("It looks like that account has been frozen by an administrator. ");
+                System.out.println("If you would like to enquire further, contact customer service at 1-888-555-1212.");
+                checkingName = true;
+            }
+            while (enteringPassword) {
+                System.out.println("Enter a password or type 'cancel' to return to a previous state: ");
+                String input2 = scan.nextLine();
+                if(input2 == "cancel"){
+                    enteringPassword = false;
+                    checkingName = true;
+                }
+                if (input2 == accountInQuestion.getPassword()){
+                    loggedOut = false;
+                    run(accountInQuestion);
+                }
+            }
+        }
+    }
 }
