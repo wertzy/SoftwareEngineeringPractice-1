@@ -8,11 +8,13 @@ public class ATMUITest {
 
         //Desmond's Test
         BankAccount tb=new BankAccount("a@mail.com","abcdef@1","checking",500);
-        testUI.run(tb);
+        testUI.run(testBank);
 
         //Peter's test
         testBank.freezeAccount("5@mail.com");
         testUI.login(testBank);
+
+
 
     }
 }

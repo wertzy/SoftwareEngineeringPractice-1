@@ -20,8 +20,9 @@ public class ATMUI {
         System.out.println("---------------------------------------\n");
     }
 
-    public void run(BankAccount ba) {
+    public void run(CentralBank centralBank) throws FrozenAccountException {
         int num = 0;
+        BankAccount ba = login(centralBank);
         while (num != 4) {
             try {
                 displayOptions(ba);
@@ -50,6 +51,7 @@ public class ATMUI {
 
             }
         }
+        run(centralBank);
     }
 
     private static BankAccount inputBankAccount() {
@@ -60,7 +62,7 @@ public class ATMUI {
     }
 
 
-    public void login(CentralBank centralBank) throws FrozenAccountException {
+    public BankAccount login(CentralBank centralBank) throws FrozenAccountException {
         Scanner scan = new Scanner(System.in);
         BankAccount accountInQuestion = null;
         boolean loggedOut = true;
@@ -95,12 +97,13 @@ public class ATMUI {
                     if (input2.equals(accountInQuestion.getPassword())) {
                         System.out.println("Correct! Welcome to your account. ");
                         loggedOut = false;
-                        run(accountInQuestion);
+                        enteringPassword = false;
                     } else {
                         System.out.println("Incorrect password. ");
                     }
                 }
             }
         }
+        return accountInQuestion;
     }
 }
