@@ -31,7 +31,7 @@ public class ATMUI {
                 num = scan.nextInt();
                 switch(num) {
                     case 1:
-                        ba.withdraw(100);
+                        ba.withdraw( promptAmount("withdraw") );
                         break;
                     case 2:
                         ba.deposit(100);
@@ -58,4 +58,11 @@ public class ATMUI {
         String input = scan.nextLine();
         return null;
     }
+
+    private double promptAmount(String action) {
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Please enter an amount to "+action+": ");
+        return scan.nextDouble();
+    }
+
 }
