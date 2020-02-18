@@ -9,7 +9,7 @@ public class ATMUITest {
 
         //Desmond's Test
         BankAccount tb=new BankAccount("a@mail.com","abcdef@1","checking",500);
-        testUI.run(tb);
+        testUI.run(tb,testBank);
     }
 }
 
