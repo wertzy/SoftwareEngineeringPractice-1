@@ -56,11 +56,7 @@ public class ATMUI {
                         ba.withdraw( promptAmount("withdraw") );
                         break;
                     case 2:
-<<<<<<< Updated upstream
                         ba.deposit( promptAmount("deposit") );
-=======
-                        ba.deposit( promptAmount("withdraw"));
->>>>>>> Stashed changes
                         break;
                     case 3:
                             BankAccount inputBA = ATMUI.inputBankAccount(cb);
